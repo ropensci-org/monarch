@@ -12,15 +12,23 @@
 #'
 #' @examples
 #' fetch("Steffi LaZerte", type = "mastodon")
+#' fetch(c("Steffi LaZerte", "Yanina Bellini Saibene"))
+#' fetch("steffilazerte")
 
 
-fetch <- function(values, type, n = 1) {
+fetch <- function(values, type = "mastodon", n = 1) {
+
+  if(!type %in% types) {
+    stop("Incorrect `type`. Must be one of ", paste0(types, collapse = ", "),
+         call. = FALSE)
+  }
+
   socials <- cocoon_open()
 
   github <- purrr::map(
     stats::setNames(nm = values),
     \(x) socials$github[stringr::str_detect(socials$value, x)]) |>
-    purrr::map(\(x) x[!is.null(x)])
+    purrr::map(\(x) unique(x[!is.null(x) & !is.na(x)]))
 
   if(any(lengths(github) > 1)) {
     warning("Matched multiple ids to ",
