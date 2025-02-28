@@ -23,21 +23,21 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
 
   if(is.character(socials)) {
     if(!is.null(type) & !is.null(value)) {
-      socials <- cocoon_fetch(value = socials)
-      if(nrow(socials) == 0) stop(socials, "doesn't exist in cocoon yet", .call = FALSE)
-      socials <- socials_update(socials, type = type, value = value)
+      socials_new <- cocoon_fetch(value = socials)
+      if(nrow(socials_df) == 0) stop(socials, "doesn't exist in cocoon yet", .call = FALSE)
+      socials_new <- socials_update(socials_new, type = type, value = value)
     } else {
-      socials <- socials_fetch(socials)
+      socials_new <- socials_fetch(socials)
     }
   } else {
     if(file.exists(cache_file())) {
-      socials <- readr::read_csv(cache_file(), show_col_types = FALSE) |>
+      socials_new <- readr::read_csv(cache_file(), show_col_types = FALSE) |>
         fmt_socials() |>
         socials_update(socials_new = socials)
     }
   }
 
-  readr::write_csv(socials, cache_file())
+  readr::write_csv(socials_new, cache_file())
 }
 
 #' Fetch all details on a social contact
