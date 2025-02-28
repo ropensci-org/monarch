@@ -24,7 +24,7 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
   if(is.character(socials)) {
     if(!is.null(type) & !is.null(value)) {
       socials_new <- cocoon_fetch(value = socials)
-      if(nrow(socials_df) == 0) stop(socials, "doesn't exist in cocoon yet", .call = FALSE)
+      if(nrow(socials_new) == 0) stop(socials, "doesn't exist in cocoon yet", .call = FALSE)
       socials_new <- socials_update(socials_new, type = type, value = value)
     } else {
       socials_new <- socials_fetch(socials)
