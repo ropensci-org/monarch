@@ -4,7 +4,7 @@
 \alias{cocoon_update}
 \title{Save/Update socials data to local file}
 \usage{
-cocoon_update(socials)
+cocoon_update(socials, type = NULL, value = NULL)
 }
 \value{
 Nothing
@@ -15,4 +15,11 @@ Save/Update your local copy of the contact information.
 \examples{
 socials_fetch("steffilazerte") |>
   cocoon_update()
+
+# Or directly
+cocoon_update("steffilazerte")
+
+# Or add parts
+cocoon_update("steffilazerte", type = "name", value = "Stefanie LaZerte")
+
 }

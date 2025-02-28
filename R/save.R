@@ -9,16 +9,35 @@
 #' @examples
 #' socials_fetch("steffilazerte") |>
 #'   cocoon_update()
+#'
+#' # Or directly
+#' cocoon_update("steffilazerte")
+#'
+#' # Or add parts
+#' cocoon_update("steffilazerte", type = "name", value = "Stefanie LaZerte")
+#'
 
-cocoon_update <- function(socials) {
-  if(file.exists(cache_file())) {
-    socials <- readr::read_csv(cache_file(), show_col_types = FALSE) |>
-      fmt_socials() |>
-      socials_update(socials_new = socials)
+cocoon_update <- function(socials, type = NULL, value = NULL) {
+
+  if(!cache_check()) stop("Cannot save socials data without a cache directory", call. = FALSE)
+
+  if(is.character(socials)) {
+    if(!is.null(type) & !is.null(value)) {
+      socials <- cocoon_fetch(value = socials)
+      if(nrow(socials) == 0) stop(socials, "doesn't exist in cocoon yet", .call = FALSE)
+      socials <- socials_update(socials, type = type, value = value)
+    } else {
+      socials <- socials_fetch(socials)
+    }
+  } else {
+    if(file.exists(cache_file())) {
+      socials <- readr::read_csv(cache_file(), show_col_types = FALSE) |>
+        fmt_socials() |>
+        socials_update(socials_new = socials)
+    }
   }
-  if(cache_check()) {
-    readr::write_csv(socials, cache_file())
-  } else message("Cannot save socials data without a cache directory")
+
+  readr::write_csv(socials, cache_file())
 }
 
 
