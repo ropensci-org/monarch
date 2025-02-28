@@ -40,6 +40,33 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
   readr::write_csv(socials, cache_file())
 }
 
+#' Fetch all details on a social contact
+#'
+#' @param value Character. Value to search by
+#' @param type Character. Type of `value` (e.g., "github" for github handle)
+#'
+#' @returns
+#' @export
+#'
+#' @examples
+#' cocoon_fetch("steffilazerte")
+#' cocoon_fetch("Steffi LaZerte", type = "name")
+
+cocoon_fetch <- function(value, type = "github") {
+  if(!type %in% types) {
+    stop("Incorrect `type`. Must be one of ", paste0(types, collapse = ", "),
+         call. = FALSE)
+  }
+
+  socials <- cocoon_open()
+  if(type == "github") {
+    gh <- value
+  } else {
+    gh <- dplyr::filter(socials, type == .env$type, value == .env$value) |>
+      dplyr::pull(.data$github)
+  }
+  dplyr::filter(socials, github == .env$gh)
+}
 
 #' Load socials data from local file
 #'
