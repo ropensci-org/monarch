@@ -26,7 +26,7 @@ fetch <- function(values, type = "mastodon", n = 1) {
   socials <- cocoon_open()
 
   github <- purrr::map(
-    stats::setNames(nm = values),
+    stats::setNames(nm = tolower(values)),
     \(x) socials$github[stringr::str_detect(socials$value, x)]) |>
     purrr::map(\(x) unique(x[!is.null(x) & !is.na(x)]))
 
