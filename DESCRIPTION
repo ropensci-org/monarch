@@ -12,4 +12,4 @@ LazyData: true
 Imports: 
     gh (>= 1.4.1),
     rlang
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2

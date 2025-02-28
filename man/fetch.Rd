@@ -4,7 +4,7 @@
 \alias{fetch}
 \title{Fetch a value}
 \usage{
-fetch(values, type, n = 1)
+fetch(values, type = "mastodon", n = 1)
 }
 \arguments{
 \item{values}{Character. Values of social data to match by.}
@@ -21,4 +21,6 @@ Fetches a single value from your local socials data frame.
 }
 \examples{
 fetch("Steffi LaZerte", type = "mastodon")
+fetch(c("Steffi LaZerte", "Yanina Bellini Saibene"))
+fetch("steffilazerte")
 }
