@@ -29,15 +29,10 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
     } else {
       socials_new <- socials_fetch(socials)
     }
-  } else {
-    if(file.exists(cache_file())) {
-      socials_new <- readr::read_csv(cache_file(), show_col_types = FALSE) |>
-        fmt_socials() |>
-        socials_update(socials_new = socials)
-    }
   }
 
-  readr::write_csv(socials_new, cache_file())
+  socials_update(cocoon_open(), fmt_socials(socials_new)) |>
+    readr::write_csv(cache_file())
 }
 
 #' Fetch all details on a social contact
@@ -50,7 +45,7 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
 #'
 #' @examples
 #' cocoon_fetch("steffilazerte")
-#' cocoon_fetch("Steffi LaZerte", type = "name")
+#' cocoon_fetch("steffi LaZerte", type = "name")
 
 cocoon_fetch <- function(value, type = "github") {
   if(!type %in% types) {
@@ -62,9 +57,11 @@ cocoon_fetch <- function(value, type = "github") {
   if(type == "github") {
     gh <- value
   } else {
-    gh <- dplyr::filter(socials, type == .env$type, value == .env$value) |>
+    gh <- dplyr::filter(socials, type == .env$type, tolower(value) == tolower(.env$value)) |>
       dplyr::pull(.data$github)
   }
+
+  if(length(gh) == 0) stop("No user identified", call. = FALSE)
   dplyr::filter(socials, github == .env$gh)
 }
 
