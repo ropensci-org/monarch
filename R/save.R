@@ -33,6 +33,8 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
 
   socials_update(cocoon_open(), fmt_socials(socials_new)) |>
     readr::write_csv(cache_file())
+
+  cocoon_fetch(socials_new$github[1])
 }
 
 #' Fetch all details on a social contact
