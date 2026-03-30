@@ -1,22 +1,30 @@
 fmt_key_list <- function(l, keep = NULL) {
-  if(!is.null(keep)) l <- l[keep]
+  if (!is.null(keep)) {
+    l <- l[keep]
+  }
   l <- l[sapply(l, \(x) !is.null(x))]
   l <- lapply(l, as.character)
   data.frame(l) |>
-    tidyr::pivot_longer(cols = dplyr::everything(),
-                        names_to = "type", values_to = "value") |>
+    tidyr::pivot_longer(
+      cols = dplyr::everything(),
+      names_to = "type",
+      values_to = "value"
+    ) |>
     dplyr::filter(value != "")
 }
 
 fmt_socials <- function(socials, github = NULL) {
-
-  if(!"github" %in% names(socials)) {
-    if(!"github" %in% socials$type) {
-      if(is.null(github)) {
+  if (!"github" %in% names(socials)) {
+    if (!"github" %in% socials$type) {
+      if (is.null(github)) {
         warning("No GitHub username identified", call. = FALSE)
         socials$github <- NA
-      } else socials$github <- tolower(github)
-    } else socials$github <- tolower(socials$value[socials$type == "github"])
+      } else {
+        socials$github <- tolower(github)
+      }
+    } else {
+      socials$github <- tolower(socials$value[socials$type == "github"])
+    }
   }
 
   dplyr::mutate(
@@ -122,8 +130,11 @@ fmt_handles <- function(x) {
 fmt_website <- function(x) {
   stringr::str_replace_all(
     tolower(x),
-    c("www\\." = "",
+    c(
+      "www\\." = "",
       "https?://" = "",
       #"^(?!https?://)" = "",
-      "/$" = ""))
+      "/$" = ""
+    )
+  )
 }

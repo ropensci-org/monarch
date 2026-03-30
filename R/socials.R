@@ -65,11 +65,12 @@ socials_fetch <- function(
 #' @export
 #'
 #' @examples
-#'
 #' socials_gh("steffilazerte")
-socials_gh <- function(github, quiet = FALSE) {
 
-  if(!quiet) message("Fetching socials from GitHub account")
+socials_gh <- function(github, quiet = FALSE) {
+  if (!quiet) {
+    message("Fetching socials from GitHub account")
+  }
   nm <- gh_cache("/users/{username}", username = github) |>
     fmt_key_list(keep = c("name", "email", "blog"))
 
@@ -81,7 +82,6 @@ socials_gh <- function(github, quiet = FALSE) {
     dplyr::bind_rows(data.frame(type = "github", value = github)) |>
     fmt_socials()
 }
-
 
 
 #' Fetch contact information from rOpenSci author pages
@@ -113,36 +113,55 @@ socials_gh <- function(github, quiet = FALSE) {
 #'
 #' socials_ro(names = c("Stefanie LaZerte", "Steffi LaZerte"))
 
-socials_ro <- function(socials = NULL, names = NULL, github = NULL, quiet = FALSE) {
-
+socials_ro <- function(
+  socials = NULL,
+  names = NULL,
+  github = NULL,
+  quiet = FALSE
+) {
   if (is.null(names) & !is.null(socials)) {
     names <- socials$value[socials$type == "name"]
-    if(length(names) == 0) names <- NULL
+    if (length(names) == 0) names <- NULL
   }
 
-  if(!quiet) message("Fetching socials from rOpenSci Author pages")
+  if (!quiet) {
+    message("Fetching socials from rOpenSci Author pages")
+  }
 
-  if(is.null(names)) {
+  if (is.null(names)) {
     stop("Must provide either a `socials` data frame or `names`")
   }
 
-  if(is.null(github) & !is.null(socials)) github <- socials$github[1]
+  if (is.null(github) & !is.null(socials)) {
+    github <- socials$github[1]
+  }
 
   t <- ro_search(names)
 
-  if(all(is.na(t))) {
-    message("Could not find rOpenSci author page, try an alias?\n",
-            "    (Tried: ", paste0(names, collapse = ", "), ")")
-    if(!is.null(socials)) return(socials) else return(invisible())
+  if (all(is.na(t))) {
+    message(
+      "Could not find rOpenSci author page, try an alias?\n",
+      "    (Tried: ",
+      paste0(names, collapse = ", "),
+      ")"
+    )
+    if (!is.null(socials)) return(socials) else return(invisible())
   }
   t <- t[!is.na(t)]
 
-  if(length(t) != 1) stop("Found multiple matches to rOpenSci author pages: ",
-                          paste0(names(t), sep = ", "), call. = FALSE)
+  if (length(t) != 1) {
+    stop(
+      "Found multiple matches to rOpenSci author pages: ",
+      paste0(names(t), sep = ", "),
+      call. = FALSE
+    )
+  }
 
   # In case of accents, need to use the HTML encoding with the download origin
-  ro <- paste0("https://raw.githubusercontent.com/",
-               stringr::str_remove_all(t, "(https://github.com/)|(blob/)")) |>
+  ro <- paste0(
+    "https://raw.githubusercontent.com/",
+    stringr::str_remove_all(t, "(https://github.com/)|(blob/)")
+  ) |>
     httr2::request() |>
     httr2::req_perform() |>
     httr2::resp_body_string() |>
@@ -150,7 +169,7 @@ socials_ro <- function(socials = NULL, names = NULL, github = NULL, quiet = FALS
     fmt_key_list() |>
     fmt_socials(github = github)
 
-  if(!is.null(socials)) {
+  if (!is.null(socials)) {
     ro <- socials_update(socials, ro)
   } else if (length(names) > 1) {
     ro <- socials_update(ro, type = "name", value = names)
@@ -192,57 +211,80 @@ socials_ro <- function(socials = NULL, names = NULL, github = NULL, quiet = FALS
 #'
 #' socials_masto(names = "steffi", github = "steffilazerte")
 
-socials_masto <- function(socials = NULL, names = NULL, github = NULL,
-                          force = FALSE, open_browser = TRUE, quiet = FALSE) {
-
+socials_masto <- function(
+  socials = NULL,
+  names = NULL,
+  github = NULL,
+  force = FALSE,
+  open_browser = TRUE,
+  quiet = FALSE
+) {
   #TODO: Can we get the Github profile information from a mastodon account?
 
-
-  if(!force && !is.null(socials) && "mastodon" %in% socials$type) {
-    if(!quiet) message("Mastodon handle already present")
+  if (!force && !is.null(socials) && "mastodon" %in% socials$type) {
+    if (!quiet) {
+      message("Mastodon handle already present")
+    }
     return(socials)
-  } else if(!quiet) message("Searching for Mastodon handle by", appendLF = FALSE)
+  } else if (!quiet) {
+    message("Searching for Mastodon handle by", appendLF = FALSE)
+  }
 
-  if(is.null(socials) & is.null(names) & is.null(github)) {
-    stop("Must provide a `socials` data frame, a `name`, or a `github` handle for searching",
-         call. = FALSE)
+  if (is.null(socials) & is.null(names) & is.null(github)) {
+    stop(
+      "Must provide a `socials` data frame, a `name`, or a `github` handle for searching",
+      call. = FALSE
+    )
   }
 
   # Name(s)
-  if(!is.null(socials)) names <- socials$value[socials$type == "name"] |> stats::setNames(nm = _)
-  if(!is.null(names)) {
+  if (!is.null(socials)) {
+    names <- socials$value[socials$type == "name"] |> stats::setNames(nm = _)
+  }
+  if (!is.null(names)) {
     names_family <- stringr::str_split_i(names, " ", -1) |>
       unique() |>
       stats::setNames(nm = _)
-  } else names_family = NULL
+  } else {
+    names_family = NULL
+  }
 
   # Websites and GitHub
   website <- NULL
-  if(!is.null(socials)) {
+  if (!is.null(socials)) {
     github <- socials$value[socials$type == "github"]
-    if(any(socials$type == "website")) website <- socials$value[socials$type == "website"]
+    if (any(socials$type == "website")) {
+      website <- socials$value[socials$type == "website"]
+    }
   }
 
-  if(!quiet) {
+  if (!quiet) {
     msg <- ""
-    if(!is.null(names)) msg <- c(msg, paste0("    Name: ", paste0(names, collapse = ", ")))
-    if(!is.null(github)) msg <- c(msg, paste0("    GitHub: ", github))
+    if (!is.null(names)) {
+      msg <- c(msg, paste0("    Name: ", paste0(names, collapse = ", ")))
+    }
+    if (!is.null(github)) {
+      msg <- c(msg, paste0("    GitHub: ", github))
+    }
     message(paste0(msg, collapse = "\n"))
   }
 
   # Look by name (whole, then last)
   masto_options <- append(
-    if(!is.null(names)) purrr::map(names, masto_search),
-    if(!is.null(names_family)) purrr::map(names_family, masto_search)) |>
+    if (!is.null(names)) purrr::map(names, masto_search),
+    if (!is.null(names_family)) purrr::map(names_family, masto_search)
+  ) |>
     append(list(masto_search(github)))
 
   masto <- masto_best(masto_options, github, website, open_browser)
 
-  if(is.na(masto)) message("No handles found")
+  if (is.na(masto)) {
+    message("No handles found")
+  }
 
-  if(!is.null(socials)) {
+  if (!is.null(socials)) {
     socials <- socials_update(socials, type = "mastodon", value = masto)
-  } else if(!is.null(github)) {
+  } else if (!is.null(github)) {
     socials <- fmt_key_list(list("mastodon" = masto, "github" = github))
   } else {
     socials <- masto
@@ -271,36 +313,63 @@ socials_masto <- function(socials = NULL, names = NULL, github = NULL,
 #' socials_fetch("steffilazerte") |>
 #'   socials_update(type = "name", value = "Stefanie LaZerte") # Add an alias
 
-socials_update <- function(socials, socials_new = NULL, type = NULL, value = NULL) {
-
-  if(is.null(socials_new) & !is.null(type) & !is.null(value)) {
-    socials_new <- data.frame(type = type,
-                              value = value,
-                              github = tolower(socials$github[1])) |>
+socials_update <- function(
+  socials,
+  socials_new = NULL,
+  type = NULL,
+  value = NULL
+) {
+  if (is.null(socials_new) & !is.null(type) & !is.null(value)) {
+    socials_new <- data.frame(
+      type = type,
+      value = value,
+      github = tolower(socials$github[1])
+    ) |>
       fmt_socials()
-  } else if(is.null(socials_new)) {
-    stop("Require either a new socials data frame or individual type-value keys to add")
+  } else if (is.null(socials_new)) {
+    stop(
+      "Require either a new socials data frame or individual type-value keys to add"
+    )
   }
 
   updateable <- dplyr::filter(socials_new, !type %in% c("website", "name"))
   duplicateable <- dplyr::filter(socials_new, type %in% c("name", "website"))
 
-  if(dplyr::n_distinct(socials_new$type) !=
-     dplyr::n_distinct(c(updateable$type, duplicateable$type))) {
+  if (
+    dplyr::n_distinct(socials_new$type) !=
+      dplyr::n_distinct(c(updateable$type, duplicateable$type))
+  ) {
     stop("Missing data types", call. = FALSE)
   }
 
   # Check updates
-  add <- dplyr::anti_join(updateable, socials, by = c("type", "value", "github"))
-  update <- dplyr::inner_join(add, socials, by = c("type", "github"), suffix = c("", "_orig"))
+  add <- dplyr::anti_join(
+    updateable,
+    socials,
+    by = c("type", "value", "github")
+  )
+  update <- dplyr::inner_join(
+    add,
+    socials,
+    by = c("type", "github"),
+    suffix = c("", "_orig")
+  )
   add <- dplyr::anti_join(add, update, by = c("type", "github"))
 
-  if(nrow(update) > 0) {
+  if (nrow(update) > 0) {
     u <- apply(update, MARGIN = 1, \(x) {
       usethis::ui_yeah(
-        paste0(tools::toTitleCase(x[["type"]]), ": ",
-               "Use the new value (", x[["value"]], ") ",
-               "instead of the original one (", x[["value_orig"]], ")?"))
+        paste0(
+          tools::toTitleCase(x[["type"]]),
+          ": ",
+          "Use the new value (",
+          x[["value"]],
+          ") ",
+          "instead of the original one (",
+          x[["value_orig"]],
+          ")?"
+        )
+      )
     })
     update <- update[u, ]
   }
@@ -314,7 +383,11 @@ socials_update <- function(socials, socials_new = NULL, type = NULL, value = NUL
 }
 
 socials_build <- function(skip_masto = TRUE) {
-  users <- gh_cache(endpoint = "/orgs/{owner}/members", owner = "ropensci", .limit = Inf) |>
+  users <- gh_cache(
+    endpoint = "/orgs/{owner}/members",
+    owner = "ropensci",
+    .limit = Inf
+  ) |>
     purrr::map_chr("login")
 
   # Don't re-fetch users we already have
@@ -326,7 +399,6 @@ socials_build <- function(skip_masto = TRUE) {
       cocoon_update()
   })
 }
-
 
 
 #' Find GH username from repository and full name
@@ -362,12 +434,18 @@ gh_search <- function(
   message(msg)
 
   # Get potential users
-  if(!is.null(pkg)) {
+  if (!is.null(pkg)) {
     endpoint <- "/repos/{owner}/{pkg}/contributors"
-  } else endpoint <- "/orgs/{owner}/members"
+  } else {
+    endpoint <- "/orgs/{owner}/members"
+  }
 
-  users <- gh_cache(endpoint = endpoint, owner = "ropensci", pkg = pkg,
-                    .limit = Inf) |>
+  users <- gh_cache(
+    endpoint = endpoint,
+    owner = "ropensci",
+    pkg = pkg,
+    .limit = Inf
+  ) |>
     purrr::map_chr("login")
   users <- users[users != "Copilot"] |>
     purrr::map(\(x) gh_cache("/users/{username}", username = x)) |>
@@ -414,7 +492,7 @@ gh_search <- function(
       q <- seq_len(nrow(u))
     }
 
-    if(open_browser) {
+    if (open_browser) {
       stats::setNames(u$url[q], u$name[q]) |>
         lapply(utils::browseURL)
     }
@@ -443,7 +521,6 @@ gh_search <- function(
 }
 
 
-
 #' Search for rOpenSci author pages
 #'
 #' @param names Character. Name(s) to search for.
@@ -452,15 +529,19 @@ gh_search <- function(
 #'
 #' @noRd
 ro_search <- function(names) {
-
   names <- name_options(names)
   names <- stringr::str_replace_all(names, " ", "-")
   names <- tolower(names)
 
   sapply(names, \(x) {
-    t <- try(gh_cache("/repos/ropensci/roweb3/contents/content/author/{name}/_index.md",
-                      name = x)[["html_url"]], silent = TRUE)
-    if(inherits(t, "try-error")) t <- NA else t
+    t <- try(
+      gh_cache(
+        "/repos/ropensci/roweb3/contents/content/author/{name}/_index.md",
+        name = x
+      )[["html_url"]],
+      silent = TRUE
+    )
+    if (inherits(t, "try-error")) t <- NA else t
   })
 }
 
@@ -475,48 +556,62 @@ ro_search <- function(names) {
 masto_search <- function(name) {
   m <- rtoot::search_accounts(name)
 
-  if(nrow(m) > 0) {
+  if (nrow(m) > 0) {
     m <- m |>
       dplyr::filter(!bot) |>
       dplyr::mutate(
-        github = purrr::map(fields, \(x) fields_match(x, "github", "(?<=>github.com/)[a-zA-Z-]+")),
-        website = purrr::map(fields, \(x) fields_match(x, "web|blog|homepage", "http[^\"]+")),
-        rstats = stringr::str_detect(tolower(note), "rstats")) |>
-      dplyr::select("id", "username", "acct", "display_name", "github", "website", "rstats", "url") |>
+        github = purrr::map(fields, \(x) {
+          fields_match(x, "github", "(?<=>github.com/)[a-zA-Z-]+")
+        }),
+        website = purrr::map(fields, \(x) {
+          fields_match(x, "web|blog|homepage", "http[^\"]+")
+        }),
+        rstats = stringr::str_detect(tolower(note), "rstats")
+      ) |>
+      dplyr::select(
+        "id",
+        "username",
+        "acct",
+        "display_name",
+        "github",
+        "website",
+        "rstats",
+        "url"
+      ) |>
       tidyr::unnest(cols = c("github", "website"), keep_empty = TRUE) |>
-      dplyr::mutate(sort = factor(id, levels = id),
-                    acct = fmt_masto(acct)) |>
+      dplyr::mutate(sort = factor(id, levels = id), acct = fmt_masto(acct)) |>
       dplyr::arrange(dplyr::desc(rstats), id)
   }
   m
 }
 
 masto_best <- function(masto_options, github, website, open_browser) {
-
-  if(all(lengths(masto_options) == 0)) return(NA)
+  if (all(lengths(masto_options) == 0)) {
+    return(NA)
+  }
 
   # Get best options - Best if match github, otherwise most common
   best <- masto_compare(masto_options, github, website)
 
-  if(nrow(best) == 0) {
+  if (nrow(best) == 0) {
     # If we couldn't match by github handle, omit all accounts with a handle (because wouldn't be the same)
-    if(!is.null(github)) masto_options <- purrr::map(masto_options, \(x) dplyr::filter(x, is.na(github)))
+    if (!is.null(github)) {
+      masto_options <- purrr::map(masto_options, \(x) {
+        dplyr::filter(x, is.na(github))
+      })
+    }
     best <- masto_common(masto_options)
   }
 
-
   # No options
-  if(nrow(best) == 0) {
-
+  if (nrow(best) == 0) {
     return(NA)
-
-  } else if(nrow(best) == 1 && !is.na(best$github) && best$github == github) {
+  } else if (nrow(best) == 1 && !is.na(best$github) && best$github == github) {
     # If matches github, return without asking
 
     message("Found ", best$acct)
     masto <- best$acct
-
-  } else if(nrow(best) > 0) {
+  } else if (nrow(best) > 0) {
     # Otherwise ask for confirmation
 
     if (nrow(best) > 5) {
@@ -530,7 +625,7 @@ masto_best <- function(masto_options, github, website, open_browser) {
     }
 
     repeat {
-      if(open_browser) {
+      if (open_browser) {
         stats::setNames(best$url[q], best$acct[q]) |>
           lapply(utils::browseURL)
       }
@@ -543,7 +638,7 @@ masto_best <- function(masto_options, github, website, open_browser) {
 
       rlang::inform("Which handle is correct?")
       masto <- utils::menu(opts)
-      if(opts[masto] == "Try some more") {
+      if (opts[masto] == "Try some more") {
         q <- seq(max(q) + 1, length.out = 5)
       } else {
         masto <- opts[masto]
@@ -562,7 +657,6 @@ masto_best <- function(masto_options, github, website, open_browser) {
 }
 
 masto_compare <- function(opts, github, website) {
-
   m0 <- dplyr::bind_rows(opts) |>
     dplyr::distinct()
 
@@ -584,8 +678,9 @@ masto_compare <- function(opts, github, website) {
   if (nrow(m) == 0 && !is.null(website)) {
     m <- dplyr::filter(
       m0,
-      stringr::str_remove_all(.data$website, "(https?://)|(www\\.)|(/$)") ==
-        stringr::str_remove_all(.env$website, "(https?://)|(www\\.)|(/$)"))
+      stringr::str_remove_all(.data$website, "(https?://)|(www\\.)|(/$)") %in%
+        stringr::str_remove_all(.env$website, "(https?://)|(www\\.)|(/$)")
+    )
   }
 
   m
@@ -606,25 +701,29 @@ masto_common <- function(masto) {
     return(masto[[1]])
   }
 
-  if(length(masto) == 1) return (masto[[1]])
-
-  if(nrow(masto[[1]]) > 0 & nrow(masto[[2]]) > 0) {
+  if (nrow(masto[[1]]) > 0 & nrow(masto[[2]]) > 0) {
     m <- dplyr::inner_join(masto[[1]], masto[[2]], by = names(masto[[1]]))
-    if(nrow(m) == 0) m <- dplyr::bind_rows(masto[[1]], masto[[2]])
-  } else if(nrow(masto[[1]]) > 0) {
+    if (nrow(m) == 0) m <- dplyr::bind_rows(masto[[1]], masto[[2]])
+  } else if (nrow(masto[[1]]) > 0) {
     m <- masto[[1]]
-  } else m <- masto[[2]]
+  } else {
+    m <- masto[[2]]
+  }
 
-  if(length(masto) > 2) masto_common(append(list(m), masto[-c(1:2)]))
+  if (length(masto) > 2) {
+    masto_common(append(list(m), masto[-c(1:2)]))
+  }
 
   m
 }
 
 fields_match <- function(x, subset, pattern) {
-  if(length(x) > 0) {
-    # Arrange and take first to prioritize 'webpage' over 'blog' and github over gihub gpg where there may be more than one
+  if (length(x) > 0) {
+    # Arrange and take first to prioritize 'webpage' over 'blog' and github over github gpg where there may be more than one
     x <- x[order(x$name, decreasing = TRUE), ]
     x <- x$value[stringr::str_detect(tolower(x$name), subset)][1]
     stringr::str_extract(x, pattern)
-  } else NA
+  } else {
+    NA
+  }
 }

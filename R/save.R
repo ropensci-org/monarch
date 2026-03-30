@@ -1,4 +1,3 @@
-
 #' Save/Update socials data to local file
 #'
 #' Save/Update your local copy of the contact information.
@@ -18,13 +17,16 @@
 #'
 
 cocoon_update <- function(socials, type = NULL, value = NULL) {
+  if (!cache_check()) {
+    stop("Cannot save socials data without a cache directory", call. = FALSE)
+  }
 
-  if(!cache_check()) stop("Cannot save socials data without a cache directory", call. = FALSE)
-
-  if(is.character(socials)) {
-    if(!is.null(type) & !is.null(value)) {
+  if (is.character(socials)) {
+    if (!is.null(type) & !is.null(value)) {
       socials_new <- cocoon_fetch(value = socials)
-      if(nrow(socials_new) == 0) stop(socials, "doesn't exist in cocoon yet", .call = FALSE)
+      if (nrow(socials_new) == 0) {
+        stop(socials, "doesn't exist in cocoon yet", .call = FALSE)
+      }
       socials_new <- socials_update(socials_new, type = type, value = value)
     } else {
       socials_new <- socials_fetch(socials)
@@ -61,14 +63,20 @@ cocoon_fetch <- function(value, type = "github") {
   }
 
   socials <- cocoon_open()
-  if(type == "github") {
+  if (type == "github") {
     gh <- value
   } else {
-    gh <- dplyr::filter(socials, type == .env$type, tolower(value) == tolower(.env$value)) |>
+    gh <- dplyr::filter(
+      socials,
+      type == .env$type,
+      tolower(value) == tolower(.env$value)
+    ) |>
       dplyr::pull(.data$github)
   }
 
-  if(length(gh) == 0) stop("No user identified", call. = FALSE)
+  if (length(gh) == 0) {
+    stop("No user identified", call. = FALSE)
+  }
   dplyr::filter(socials, github == .env$gh)
 }
 
@@ -82,7 +90,7 @@ cocoon_fetch <- function(value, type = "github") {
 #' @examples
 #' cocoon_open()
 cocoon_open <- function() {
-  if(file.exists(cache_file())) {
+  if (file.exists(cache_file())) {
     return(
       readr::read_csv(cache_file(), show_col_types = FALSE) |>
         fmt_socials()
@@ -122,14 +130,20 @@ cache_dir <- function() {
 
 cache_check <- function() {
   check <- FALSE
-  if(!dir.exists(cache_dir())) {
-    rlang::inform(paste0("Cache directory (", cache_dir(), ") does not exist, create it?"))
+  if (!dir.exists(cache_dir())) {
+    rlang::inform(paste0(
+      "Cache directory (",
+      cache_dir(),
+      ") does not exist, create it?"
+    ))
     create <- utils::menu(choices = c("Yes", "No"))
-    if(create == 1) {
+    if (create == 1) {
       dir.create(cache_dir())
       check <- TRUE
     }
-  } else check <- TRUE
+  } else {
+    check <- TRUE
+  }
 
   check
 }
