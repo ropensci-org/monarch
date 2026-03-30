@@ -128,6 +128,18 @@ cache_dir <- function() {
   tools::R_user_dir(package = "monarch")
 }
 
+#' Check Cached Dir
+#'
+#' Checks for the presence of a cache dir. If interactive and not present,
+#' asks user if it should be created. If non-interactive and not present, it
+#' is created automatically.
+#'
+#' @returns Logical. TRUE if it exists, FALSE if not.
+#'
+#' @export
+#' @examples
+#' cache_check()
+
 cache_check <- function() {
   check <- FALSE
   if (!dir.exists(cache_dir())) {
@@ -136,7 +148,12 @@ cache_check <- function() {
       cache_dir(),
       ") does not exist, create it?"
     ))
-    create <- utils::menu(choices = c("Yes", "No"))
+    if (interactive()) {
+      create <- utils::menu(choices = c("Yes", "No"))
+    } else {
+      create <- 1
+    }
+
     if (create == 1) {
       dir.create(cache_dir())
       check <- TRUE
