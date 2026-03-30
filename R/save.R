@@ -83,8 +83,26 @@ cocoon_open <- function() {
     return(
       readr::read_csv(cache_file(), show_col_types = FALSE) |>
         fmt_socials()
-      )
-  } else message("No socials book found")
+}
+
+#' Remove Socials by GitHub handle
+#'
+#' @inheritParams common_docs
+#'
+#' @returns Socials data frame
+#'
+#' @export
+#' @examples
+#' cocoon_fetch("steffilazerte")
+#' cocoon_remove("steffilazerte")
+#' cocoon_fetch("steffilazerte")
+
+cocoon_remove <- function(github) {
+  cocoon_open() |>
+    dplyr::filter(.data$github != .env$github) |>
+    readr::write_csv(cache_file())
+
+  cocoon_open()
 }
 
 cache_file <- function() {
