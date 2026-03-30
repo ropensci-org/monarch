@@ -20,6 +20,5 @@ Data frame of social contact information. Three columns `type`,
 Using a GitHub username fetch the contact information from their profile.
 }
 \examples{
-
 socials_gh("steffilazerte")
 }

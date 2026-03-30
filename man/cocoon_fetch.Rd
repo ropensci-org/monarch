@@ -16,5 +16,5 @@ Fetch all details on a social contact
 }
 \examples{
 cocoon_fetch("steffilazerte")
-cocoon_fetch("Steffi LaZerte", type = "name")
+cocoon_fetch("steffi LaZerte", type = "name")
 }

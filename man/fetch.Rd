@@ -20,7 +20,8 @@ Character string of the value of the type of data requested
 Fetches a single value from your local socials data frame.
 }
 \examples{
-fetch("Steffi LaZerte", type = "mastodon")
-fetch(c("Steffi LaZerte", "Yanina Bellini Saibene"))
+fetch("Steffi LaZerte", type = "linkedin")
+fetch(c("Steffi LaZerte", NA, "Yanina Bellini Saibene"))
 fetch("steffilazerte")
+fetch("Maëlle Salmon", type = "github")
 }

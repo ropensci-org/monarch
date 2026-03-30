@@ -41,4 +41,6 @@ in rOpenSci), it can be much faster.
 }
 \examples{
 socials_fetch("steffilazerte")
+socials_fetch(name = "Steffi LaZerte", pkg = "weathercan")
+socials_fetch(name = "Bart Vanhoorne", pkg = "worrms")
 }
