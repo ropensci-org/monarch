@@ -28,19 +28,22 @@ fmt_socials <- function(socials, github = NULL) {
       type %in% c("blog", "url", "link") ~ "website",
       stringr::str_detect(value, "orcid\\.org") ~ "orcid",
       stringr::str_detect(value, "bsky\\.app") ~ "bluesky",
-      .default = type),
+      stringr::str_detect(value, "youtube") ~ "youtube",
+      .default = type
+    ),
 
     # Clean up values
     value = stringr::str_replace_all(
       value,
-      c("https?://orcid.org/" = "",
-        "/$" = "")),
+      c("https?://orcid.org/" = "", "/$" = "")
+    ),
     value = dplyr::case_when(
       type == "mastodon" ~ fmt_masto(value),
-      type %in% c("twitter", "bluesky") ~ fmt_handles(value),
+      type %in% c("twitter", "bluesky", "youtube") ~ fmt_handles(value),
       type == "website" ~ fmt_website(value),
       type != "name" ~ tolower(value),
-      .default = value)
+      .default = value
+    )
   ) |>
     dplyr::filter(!type %in% c("bio", "img")) |>
     fmt_arrange()
@@ -49,14 +52,33 @@ fmt_socials <- function(socials, github = NULL) {
 
 fmt_arrange <- function(socials) {
   socials |>
-    dplyr::mutate(type = factor(type, levels = types),
-                  nchar = nchar(value)) |>
+    dplyr::mutate(
+      type = factor(type, levels = fmt_types()),
+      nchar = nchar(value)
+    ) |>
     dplyr::arrange(github, type, nchar) |>
     dplyr::select(-"nchar")
 }
 
-types <- c("github", "name", "alias", "mastodon", "linkedin", "twitter", "bluesky",
-           "instagram", "generic", "gitlab", "keybase", "website", "email", "orcid")
+fmt_types <- function() {
+  c(
+    "github",
+    "name",
+    "alias",
+    "mastodon",
+    "linkedin",
+    "twitter",
+    "bluesky",
+    "instagram",
+    "generic",
+    "gitlab",
+    "keybase",
+    "website",
+    "email",
+    "orcid",
+    "youtube"
+  )
+}
 
 
 #' Convert a mastodon user link to handle
@@ -83,9 +105,13 @@ fmt_masto <- function(x) {
 fmt_handles <- function(x) {
   stringr::str_replace_all(
     tolower(x),
-    c("https?://twitter.com/" = "@",
+    c(
+      "https?://twitter.com/" = "@",
       "https?://bsky.app/profile/" = "@",
-      "^(?!@)" = "@"))
+      "https?://www.youtube.com/" = "",
+      "^(?!@)" = "@"
+    )
+  )
 }
 
 fmt_website <- function(x) {
