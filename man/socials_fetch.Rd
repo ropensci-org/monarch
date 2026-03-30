@@ -9,6 +9,7 @@ socials_fetch(
   name = NULL,
   pkg = NULL,
   skip_masto = FALSE,
+  force_masto = FALSE,
   quiet = FALSE
 )
 }

@@ -16,9 +16,10 @@ Character user handle @user@instance
 Convert a mastodon user link to handle
 }
 \examples{
-masto2user("https://fosstodon.org/@steffilazerte")
-masto2user("steffi lazerte")
-masto2user("@steffilazerte@fosstodon.org")
-masto2user(NA)
-masto2user(c("https://fosstodon.org/@steffilazerte", "https://hackyderm.io/@ropensci"))
+fmt_masto("https://fosstodon.org/@steffilazerte")
+fmt_masto("steffi lazerte")
+fmt_masto("@steffilazerte@fosstodon.org")
+fmt_masto(NA)
+fmt_masto(c("https://fosstodon.org/@steffilazerte", "https://hackyderm.io/@ropensci"))
+fmt_masto("none")
 }

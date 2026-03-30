@@ -49,7 +49,7 @@ this case, the Mastodon handle is returned as a character string and not as
 a socials data frame.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 socials_gh("steffilazerte") |>
  socials_masto(force = TRUE)
 

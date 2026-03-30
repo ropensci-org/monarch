@@ -4,7 +4,13 @@
 \alias{add_handles}
 \title{Find and insert missing social media handles}
 \usage{
-add_handles(df, primary = "github", pkg_col = NULL, prefix = NULL)
+add_handles(
+  df,
+  primary = "github",
+  pkg_col = NULL,
+  prefix = NULL,
+  force_masto = FALSE
+)
 }
 \arguments{
 \item{df}{Data frame with columns appended with `_name`, `_github`, `_mastodon`.}
