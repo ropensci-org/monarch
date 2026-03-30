@@ -468,7 +468,6 @@ gh_search <- function(
     ) |>
     dplyr::filter(any(match), .by = "github") |>
     dplyr::filter(type == "name") |>
-    dplyr::mutate(url = paste0("https://github.com/", github)) |>
     dplyr::select(github, name = value, url) |>
     dplyr::distinct()
 
