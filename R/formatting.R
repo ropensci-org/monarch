@@ -89,17 +89,22 @@ fmt_types <- function() {
 #' @export
 #'
 #' @examples
-#' masto2user("https://fosstodon.org/@steffilazerte")
-#' masto2user("steffi lazerte")
-#' masto2user("@steffilazerte@fosstodon.org")
-#' masto2user(NA)
-#' masto2user(c("https://fosstodon.org/@steffilazerte", "https://hackyderm.io/@ropensci"))
+#' fmt_masto("https://fosstodon.org/@steffilazerte")
+#' fmt_masto("steffi lazerte")
+#' fmt_masto("@steffilazerte@fosstodon.org")
+#' fmt_masto(NA)
+#' fmt_masto(c("https://fosstodon.org/@steffilazerte", "https://hackyderm.io/@ropensci"))
+#' fmt_masto("none")
 
 fmt_masto <- function(x) {
   stringr::str_replace_all(
     tolower(x),
-    c("https?://([^@]+)/(@.+$)" = "\\2@\\1",
-      "^(?!@)" = "@"))
+    c(
+      "https?://([^@]+)/(@.+$)" = "\\2@\\1",
+      "^(?!@)" = "@",
+      "^@none$" = "none" # Remove @ added in last line for 'none's
+    )
+  )
 }
 
 fmt_handles <- function(x) {

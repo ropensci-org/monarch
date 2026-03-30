@@ -52,9 +52,12 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
 #' cocoon_fetch("steffi LaZerte", type = "name")
 
 cocoon_fetch <- function(value, type = "github") {
-  if(!type %in% types) {
-    stop("Incorrect `type`. Must be one of ", paste0(types, collapse = ", "),
-         call. = FALSE)
+  if (!type %in% fmt_types()) {
+    stop(
+      "Incorrect `type`. Must be one of ",
+      paste0(fmt_types(), collapse = ", "),
+      call. = FALSE
+    )
   }
 
   socials <- cocoon_open()
@@ -83,6 +86,10 @@ cocoon_open <- function() {
     return(
       readr::read_csv(cache_file(), show_col_types = FALSE) |>
         fmt_socials()
+    )
+  } else {
+    message("No socials book found")
+  }
 }
 
 #' Remove Socials by GitHub handle

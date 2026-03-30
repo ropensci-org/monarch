@@ -23,15 +23,32 @@
 #'
 #' @examples
 #' socials_fetch("steffilazerte")
+#' socials_fetch(name = "Steffi LaZerte", pkg = "weathercan")
+#' socials_fetch(name = "Bart Vanhoorne", pkg = "worrms")
 
-socials_fetch <- function(github = NULL, name = NULL, pkg = NULL,
-                          skip_masto = FALSE, quiet = FALSE) {
-
-  if(is.null(github)) github <- gh_search(name, pkg)
+socials_fetch <- function(
+  github = NULL,
+  name = NULL,
+  pkg = NULL,
+  skip_masto = FALSE,
+  force_masto = FALSE,
+  quiet = FALSE
+) {
+  if (is.null(github)) {
+    github <- gh_search(name, pkg)
+  }
 
   s <- socials_gh(github)
-  if("name" %in% s$type) s <- socials_ro(s)
-  if(!skip_masto) s <- socials_masto(s)
+  if ("name" %in% s$type) {
+    s <- socials_ro(s)
+  }
+  if (!skip_masto) {
+    s <- socials_masto(s, force = force_masto)
+  }
+
+  if (!is.null(name) && !name %in% s$value[s$type == "name"]) {
+    s <- socials_update(s, type = "name", value = name)
+  }
   s
 }
 
@@ -329,12 +346,20 @@ socials_build <- function(skip_masto = TRUE) {
 #'
 #' @examples
 #'
-#' gh_user(name = "Steffi E. LaZerte", owner = "ropensci", pkg = "weathercan")
-#' gh_user(name = "Steffi", owner = "ropensci", pkg = "weathercan")
+#' gh_search(name = "Steffi E. LaZerte", owner = "ropensci", pkg = "weathercan")
+#' gh_search(name = "Steffi", owner = "ropensci", pkg = "weathercan")
 
-gh_search <- function(name, pkg = NULL, owner = "ropensci", open_browser = TRUE) {
-
-  message("Finding GitHub username from name")
+gh_search <- function(
+  name,
+  pkg = NULL,
+  owner = "ropensci",
+  open_browser = TRUE
+) {
+  msg <- paste("Finding GitHub username from name:", name)
+  if (!is.null(pkg)) {
+    msg <- paste0(msg, " (", pkg, ")")
+  }
+  message(msg)
 
   # Get potential users
   if(!is.null(pkg)) {
@@ -344,23 +369,50 @@ gh_search <- function(name, pkg = NULL, owner = "ropensci", open_browser = TRUE)
   users <- gh_cache(endpoint = endpoint, owner = "ropensci", pkg = pkg,
                     .limit = Inf) |>
     purrr::map_chr("login")
+  users <- users[users != "Copilot"] |>
+    purrr::map(\(x) gh_cache("/users/{username}", username = x)) |>
+    stats::setNames(users) |>
+    purrr::map(\(x) {
+      fmt_key_list(x, keep = c("name", "email", "blog", "login"))
+    }) |>
+    dplyr::bind_rows(.id = "github") |>
+    dplyr::mutate(url = paste0("https://github.com/", github))
 
-  # Names to check - Try also without initials
+  # Names to check - Try also without initials or middle names
   n <- name_options(name)
 
-  u <- purrr::map(users, \(x) gh_cache("/users/{username}", username = x)) |>
-    stats::setNames(users) |>
-    purrr::map(\(x) fmt_key_list(x, keep = c("name", "email", "blog", "login"))) |>
-    dplyr::bind_rows(.id = "github") |>
-    dplyr::mutate(match = stringr::str_detect(tolower(value), tolower(n))) |>
+  u <- users |>
+    dplyr::mutate(
+      match = stringr::str_detect(
+        tolower(value),
+        tolower(paste0(n, collapse = "|"))
+      )
+    ) |>
     dplyr::filter(any(match), .by = "github") |>
     dplyr::filter(type == "name") |>
     dplyr::mutate(url = paste0("https://github.com/", github)) |>
     dplyr::select(github, name = value, url) |>
     dplyr::distinct()
 
-  if(nrow(u) > 0) {
-    if(nrow(u) > 5) q <- 1:5 else q <- seq_len(nrow(u))
+  if (open_browser) {
+    if (!is.null(pkg)) {
+      glue::glue("https://github.com/{owner}/{pkg}") |>
+        utils::browseURL()
+    }
+  }
+
+  if (nrow(u) == 0) {
+    u <- users |>
+      tidyr::pivot_wider(names_from = "type") |>
+      dplyr::select("github", "name", "url")
+  }
+
+  if (nrow(u) > 0) {
+    if (nrow(u) > 5) {
+      q <- 1:5
+    } else {
+      q <- seq_len(nrow(u))
+    }
 
     if(open_browser) {
       stats::setNames(u$url[q], u$name[q]) |>
@@ -368,16 +420,19 @@ gh_search <- function(name, pkg = NULL, owner = "ropensci", open_browser = TRUE)
     }
 
     repeat {
-      opts <- u$github[q]
-      if(nrow(u) > i) opts <- c(opts, "Try some more")
+      opts <- paste0(u$github[q], " (", u$name[q], ")") |>
+        rlang::set_names(u$github[q])
+      if (nrow(u) > max(q)) {
+        opts <- c(opts, "Try some more")
+      }
       opts <- c(opts, "None of the above")
 
       rlang::inform("Which handle is correct?")
       github <- utils::menu(opts)
-      if(opts[github] == "Try some more") {
-        i <- max(q) + 1
+      if (opts[github] == "Try some more") {
+        q <- seq(max(q) + 1, length.out = 5)
       } else {
-        github <- opts[github]
+        github <- names(opts)[github]
         break
       }
     }
@@ -464,7 +519,15 @@ masto_best <- function(masto_options, github, website, open_browser) {
   } else if(nrow(best) > 0) {
     # Otherwise ask for confirmation
 
-    if(nrow(best) > 5) q <- 1:5 else q <- seq_len(nrow(best))
+    if (nrow(best) > 5) {
+      q <- 1:5
+    } else {
+      q <- seq_len(nrow(best))
+    }
+
+    if (!is.null(github) && open_browser) {
+      utils::browseURL(paste0("https://github.com/", github))
+    }
 
     repeat {
       if(open_browser) {
@@ -473,8 +536,10 @@ masto_best <- function(masto_options, github, website, open_browser) {
       }
 
       opts <- best$acct[q]
-      if(nrow(best) > max(q)) opts <- c(opts, "Try some more")
-      opts <- c(opts, "None of the above")
+      if (nrow(best) > max(q)) {
+        opts <- c(opts, "Try some more")
+      }
+      opts <- c(opts, "None - Doesn't use mastodon", "Skip - None of the above")
 
       rlang::inform("Which handle is correct?")
       masto <- utils::menu(opts)
@@ -486,8 +551,11 @@ masto_best <- function(masto_options, github, website, open_browser) {
       }
     }
 
-    if(masto == "None of the above") return(NA)
-
+    if (masto == "Skip - None of the above") {
+      return(NA)
+    } else if (masto == "None - Doesn't use mastodon") {
+      return("none")
+    }
   }
 
   masto
@@ -499,8 +567,21 @@ masto_compare <- function(opts, github, website) {
     dplyr::distinct()
 
   m <- data.frame()
-  if(!is.null(github)) m <- dplyr::filter(m0, .data$github == .env$github)
-  if(nrow(m) == 0 && !is.null(website)) {
+  if (!is.null(github)) {
+    m <- m0 |>
+      # Can't use "" in stringr below, so make NA
+      dplyr::mutate(display_name = dplyr::na_if(.data$display_name, "")) |>
+      dplyr::filter(
+        .data$github == .env$github |
+          stringr::str_detect(.env$github, tolower(.data$display_name)) |
+          stringr::str_detect(.env$github, tolower(.data$username))
+      )
+
+    # Omit those with a GH username that doesn't match
+    m <- dplyr::filter(m, !(!is.na(.data$github) & .data$github != .env$github))
+  }
+
+  if (nrow(m) == 0 && !is.null(website)) {
     m <- dplyr::filter(
       m0,
       stringr::str_remove_all(.data$website, "(https?://)|(www\\.)|(/$)") ==
@@ -521,6 +602,9 @@ masto_compare <- function(opts, github, website) {
 #'
 #' @noRd
 masto_common <- function(masto) {
+  if (length(masto) == 1) {
+    return(masto[[1]])
+  }
 
   if(length(masto) == 1) return (masto[[1]])
 
