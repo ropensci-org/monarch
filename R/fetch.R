@@ -1,4 +1,3 @@
-
 #' Fetch a value
 #'
 #' Fetches a single value from your local socials data frame.
@@ -11,10 +10,10 @@
 #' @export
 #'
 #' @examples
-#' fetch("Steffi LaZerte", type = "mastodon")
-#' fetch(c("Steffi LaZerte", "Yanina Bellini Saibene"))
+#' fetch("Steffi LaZerte", type = "linkedin")
+#' fetch(c("Steffi LaZerte", NA, "Yanina Bellini Saibene"))
 #' fetch("steffilazerte")
-
+#' fetch("Maëlle Salmon", type = "github")
 
 fetch <- function(values, type = "mastodon", n = 1) {
   if (!type %in% fmt_types()) {
@@ -41,8 +40,17 @@ fetch <- function(values, type = "mastodon", n = 1) {
     )
   }
 
-  vals <- socials[socials$type == type, ]
-  vals$value[match(github, vals$github)]
+  s <- socials[socials$type == type, ]
+
+  purrr::map_chr(github, \(g) {
+    r <- s |>
+      dplyr::filter(.data$github %in% .env$g) |>
+      dplyr::arrange(dplyr::desc(nchar(.data$value))) |>
+      dplyr::slice_head(n = n, by = "github") |>
+      dplyr::pull(.data$value)
+    if (length(r) == 0) {
+      r <- NA
+    }
+    r
+  })
 }
-
-
