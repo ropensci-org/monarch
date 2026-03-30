@@ -29,6 +29,8 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
     } else {
       socials_new <- socials_fetch(socials)
     }
+  } else {
+    socials_new <- socials
   }
 
   socials_update(cocoon_open(), fmt_socials(socials_new)) |>
