@@ -15,12 +15,25 @@
 #'   owner = "ropensci",
 #'   author_github = NA
 #' )
+#' 
 #' add_handles(d, primary = "name", prefix = "author_", pkg_col = "pkg", owner_col = "owner")
 #'
 #' d <- data.frame(github = "steffilazerte")
 #' add_handles(d)
 #'
+#' # If all complete, do not overwrite unless force == TRUE
+#' d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test", linkedin = "test")
+#' add_handles(d)
 #'
+#' d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test", linkedin = "test")
+#' add_handles(d, force = TRUE)
+#'
+#' # Use name for linked in (always)
+#' d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test")
+#' add_handles(d)
+#' 
+#'  d <- data.frame(github = "steffilazerte", name = "test")
+#' add_handles(d)
 
 add_handles <- function(
   df,
@@ -28,7 +41,8 @@ add_handles <- function(
   pkg_col = NULL,
   owner_col = NULL,
   prefix = NULL,
-  force_masto = FALSE
+  force_masto = FALSE,
+  force = FALSE
 ) {
   if (nrow(df) == 0) {
     return(data.frame())
@@ -39,6 +53,27 @@ add_handles <- function(
   name_col <- paste0(prefix, "name")
   mastodon_col <- paste0(prefix, "mastodon")
   linkedin_col <- paste0(prefix, "linkedin") #Assigned to same as Name later
+
+  # Which are done?
+  complete <- data.frame()
+  if (!force) {
+    rows_complete <- which(
+      !is.na(df[[github_col]]) &
+        !is.na(df[[name_col]]) &
+        !is.na(df[[mastodon_col]])
+    )
+
+    if (length(rows_complete) > 0) {
+      complete <- df[rows_complete, ]
+      df <- df[-rows_complete, ]
+    }
+    if (nrow(df) == 0) {
+      if (is.null(complete[[linkedin_col]])) {
+        complete[[linkedin_col]] <- complete[[name_col]]
+      }
+      return(complete)
+    }
+  }
 
   if (
     primary != "github" &&
@@ -96,6 +131,9 @@ add_handles <- function(
         .data[[mastodon_col]]
       )
     )
+
+  # Add complete back in
+  df <- dplyr::bind_rows(df, complete)
 
   df
 }
