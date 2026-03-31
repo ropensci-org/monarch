@@ -16,6 +16,7 @@ add_handles <- function(
   df,
   primary = "github",
   pkg_col = NULL,
+  owner_col = NULL,
   prefix = NULL,
   force_masto = FALSE
 ) {
@@ -55,6 +56,7 @@ add_handles <- function(
       name_col,
       mastodon_col,
       pkg_col,
+      owner_col,
       force_masto
     )
   }
@@ -133,11 +135,12 @@ add_handles_name <- function(
   name_col,
   mastodon_col,
   pkg_col,
+  owner_col,
   force_masto
 ) {
-  if (is.null(pkg_col)) {
+  if (is.null(pkg_col) || is.null(owner_col)) {
     cli::cli_warn(
-      "Finding GitHub handles without a package repository can be very slow..."
+      "Finding GitHub handles without a package repository and repository owner can be very slow..."
     )
   }
 
@@ -167,18 +170,23 @@ add_handles_name <- function(
 
   # Get missing github
   chk <- df |>
-    dplyr::select(name_col, github_col, dplyr::any_of(pkg_col)) |>
+    dplyr::select(name_col, github_col, dplyr::any_of(c(pkg_col, owner_col))) |>
     dplyr::filter(!is.na(.data[[name_col]]), is.na(.data[[github_col]])) |>
     dplyr::distinct() |>
-    dplyr::rename(dplyr::any_of(c("name" = name_col, "pkg" = pkg_col)))
+    dplyr::rename(dplyr::any_of(c(
+      "name" = name_col,
+      "pkg" = pkg_col,
+      "owner" = owner_col
+    )))
 
   if (nrow(chk) > 0) {
     purrr::pwalk(
       chk,
-      \(name, pkg = NULL, ...) {
+      \(name, pkg = NULL, owner = NULL, ...) {
         monarch::socials_fetch(
           name = name,
           pkg = pkg,
+          owner = owner,
           force_masto = force_masto
         ) |>
           monarch::cocoon_update()
