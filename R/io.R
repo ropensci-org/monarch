@@ -9,8 +9,18 @@
 #' d <- data.frame(author_name = "Steffi LaZerte")
 #' add_handles(d, primary = "name", prefix = "author_")
 #'
+#' d <- data.frame(
+#'   author_name = "Steffi LaZerte",
+#'   pkg = "weathercan",
+#'   owner = "ropensci",
+#'   author_github = NA
+#' )
+#' add_handles(d, primary = "name", prefix = "author_", pkg_col = "pkg", owner_col = "owner")
+#'
 #' d <- data.frame(github = "steffilazerte")
 #' add_handles(d)
+#'
+#'
 
 add_handles <- function(
   df,
@@ -30,7 +40,11 @@ add_handles <- function(
   mastodon_col <- paste0(prefix, "mastodon")
   linkedin_col <- paste0(prefix, "linkedin") #Assigned to same as Name later
 
-  if (primary != "github" && !github_col %in% names(df)) {
+  if (
+    primary != "github" &&
+      github_col %in% names(df) &&
+      !anyNA(df[[github_col]])
+  ) {
     cli::cli_abort(
       "If you have github handles you should use `primary = 'github'`"
     )
