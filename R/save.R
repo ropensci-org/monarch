@@ -22,7 +22,7 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
   }
 
   if (is.character(socials)) {
-    if (!is.null(type) & !is.null(value)) {
+    if (!is.null(type) && !is.null(value)) {
       socials_new <- cocoon_fetch(value = socials)
       if (nrow(socials_new) == 0) {
         stop(socials, "doesn't exist in cocoon yet", .call = FALSE)
@@ -97,6 +97,11 @@ cocoon_open <- function() {
     )
   } else {
     message("No socials book found")
+    return(dplyr::tibble(
+      type = character(),
+      value = character(),
+      github = character()
+    ))
   }
 }
 
