@@ -664,8 +664,19 @@ masto_compare <- function(opts, github, website) {
   m <- data.frame()
   if (!is.null(github)) {
     m <- m0 |>
-      # Can't use "" in stringr below, so make NA
-      dplyr::mutate(display_name = dplyr::na_if(.data$display_name, "")) |>
+      # Can't use "", NA, or NULL in stringr::str_detect, so use xxxx as dummy
+      dplyr::mutate(
+        display_name = dplyr::if_else(
+          .data$display_name == "",
+          "xxxxxxx",
+          .data$display_name
+        ),
+        username = dplyr::if_else(
+          .data$username == "",
+          "xxxxxxx",
+          .data$username
+        ),
+      ) |>
       dplyr::filter(
         .data$github == .env$github |
           stringr::str_detect(.env$github, tolower(.data$display_name)) |
