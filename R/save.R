@@ -130,7 +130,8 @@ cache_file <- function() {
 }
 
 cache_dir <- function() {
-  tools::R_user_dir(package = "monarch")
+  getOption("monarch.cache_dir") %||%
+    tools::R_user_dir(package = "monarch")
 }
 
 #' Check Cached Dir
