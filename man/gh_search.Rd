@@ -26,6 +26,6 @@ initials.
 }
 \examples{
 
-gh_search(name = "Steffi E. LaZerte", owner = "ropensci", pkg = "weathercan")
-gh_search(name = "Steffi", owner = "ropensci", pkg = "weathercan")
+gh_search(name = "Steffi E. LaZerte", pkg = "weathercan")
+gh_search(name = "Steffi", pkg = "weathercan")
 }

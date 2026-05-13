@@ -8,8 +8,10 @@ add_handles(
   df,
   primary = "github",
   pkg_col = NULL,
+  owner_col = NULL,
   prefix = NULL,
-  force_masto = FALSE
+  force_masto = FALSE,
+  force = FALSE
 )
 }
 \arguments{
@@ -25,6 +27,29 @@ Find and insert missing social media handles
 d <- data.frame(author_name = "Steffi LaZerte")
 add_handles(d, primary = "name", prefix = "author_")
 
+d <- data.frame(
+  author_name = "Steffi LaZerte",
+  pkg = "weathercan",
+  owner = "ropensci",
+  author_github = NA
+)
+
+add_handles(d, primary = "name", prefix = "author_", pkg_col = "pkg", owner_col = "owner")
+
 d <- data.frame(github = "steffilazerte")
+add_handles(d)
+
+# If all complete, do not overwrite unless force == TRUE
+d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test", linkedin = "test")
+add_handles(d)
+
+d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test", linkedin = "test")
+add_handles(d, force = TRUE)
+
+# Use name for linked in (always)
+d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test")
+add_handles(d)
+
+ d <- data.frame(github = "steffilazerte", name = "test")
 add_handles(d)
 }

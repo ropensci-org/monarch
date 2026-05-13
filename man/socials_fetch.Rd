@@ -8,6 +8,7 @@ socials_fetch(
   github = NULL,
   name = NULL,
   pkg = NULL,
+  owner = NULL,
   skip_masto = FALSE,
   force_masto = FALSE,
   quiet = FALSE
@@ -44,4 +45,5 @@ in rOpenSci), it can be much faster.
 socials_fetch("steffilazerte")
 socials_fetch(name = "Steffi LaZerte", pkg = "weathercan")
 socials_fetch(name = "Bart Vanhoorne", pkg = "worrms")
+socials_fetch(name = "Maelle Salmon", pkg = "babelquarto", owner = "ropensci-review-tools")
 }
