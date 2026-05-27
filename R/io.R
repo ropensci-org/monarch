@@ -75,7 +75,7 @@ add_handles <- function(
   # Which are done?
   complete <- data.frame()
   if (!force) {
-    df_check <- dplyr::select(df, dplyr::any_of(cols[which_cols]))
+    df_check <- dplyr::select(df, dplyr::any_of(unname(cols[which_cols])))
     if (ncol(df_check) == 0) {
       rows_complete <- NULL
     } else {
@@ -190,7 +190,7 @@ add_handles_github <- function(
   )
 
   # Get missing mastodon/names from github
-  chk <- dplyr::select(df, dplyr::any_of(cols)) |>
+  chk <- dplyr::select(df, dplyr::any_of(unname(cols))) |>
     dplyr::filter(!is.na(.data[[cols["github"]]]))
 
   complete <- complete.cases(chk[[which_cols[which_cols != "github"]]])
