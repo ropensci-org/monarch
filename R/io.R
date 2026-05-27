@@ -193,7 +193,7 @@ add_handles_github <- function(
   chk <- dplyr::select(df, dplyr::any_of(unname(cols))) |>
     dplyr::filter(!is.na(.data[[cols["github"]]]))
 
-  complete <- complete.cases(chk[[which_cols[which_cols != "github"]]])
+  complete <- complete.cases(chk[[cols[which_cols[which_cols != "github"]]]])
 
   chk <- chk[!complete, ] |>
     dplyr::distinct() |>
