@@ -11,6 +11,9 @@ cocoon_fetch(value, type = "github")
 
 \item{type}{Character. Type of `value` (e.g., "github" for github handle)}
 }
+\value{
+Data frame of socials
+}
 \description{
 Fetch all details on a social contact
 }

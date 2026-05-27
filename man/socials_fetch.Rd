@@ -9,7 +9,7 @@ socials_fetch(
   name = NULL,
   pkg = NULL,
   owner = NULL,
-  skip_masto = FALSE,
+  which_cols = c("github", "name", "mastodon"),
   force_masto = FALSE,
   quiet = FALSE
 )

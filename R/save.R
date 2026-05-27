@@ -46,7 +46,7 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
 #' @param value Character. Value to search by
 #' @param type Character. Type of `value` (e.g., "github" for github handle)
 #'
-#' @returns
+#' @returns Data frame of socials
 #' @export
 #'
 #' @examples
