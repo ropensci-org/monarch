@@ -32,7 +32,7 @@ socials_fetch <- function(
   name = NULL,
   pkg = NULL,
   owner = NULL,
-  skip_masto = FALSE,
+  which_cols = c("github", "name", "mastodon"),
   force_masto = FALSE,
   quiet = FALSE
 ) {
@@ -44,13 +44,20 @@ socials_fetch <- function(
   if ("name" %in% s$type) {
     s <- socials_ro(s)
   }
-  if (!skip_masto) {
+
+  if ("mastodon" %in% which_cols) {
     s <- socials_masto(s, force = force_masto)
   }
 
-  if (!is.null(name) && !name %in% s$value[s$type == "name"]) {
+  if (
+    "name" %in%
+      which_cols &&
+      !is.null(name) &&
+      !name %in% s$value[s$type == "name"]
+  ) {
     s <- socials_update(s, type = "name", value = name)
   }
+
   s
 }
 

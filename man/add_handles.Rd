@@ -7,8 +7,9 @@
 add_handles(
   df,
   primary = "github",
-  pkg_col = NULL,
-  owner_col = NULL,
+  which_cols = c("github", "name", "mastodon", "linkedin"),
+  pkg_col = "pkg",
+  owner_col = "owner",
   prefix = NULL,
   force_masto = FALSE,
   force = FALSE
@@ -16,6 +17,23 @@ add_handles(
 }
 \arguments{
 \item{df}{Data frame with columns appended with `_name`, `_github`, `_mastodon`.}
+
+\item{primary}{Character. Either "github" or "name", which ever column is the
+primary column by which social handles should be fetched.}
+
+\item{which_cols}{Character vector. Social columns to return, any of
+"github", "name", "mastodon", "linkedin".}
+
+\item{pkg_col}{Character. Name of the "pkg" column. Optional but recommended
+for fetching by name.}
+
+\item{owner_col}{Character. Name of the column containing repository owners for packages (`pkg_col`). Optional but recommended for fetching by name.}
+
+\item{prefix}{Character. Optional prefix on column names (e.g. "maintainer_" for "maintainer_github", "matinainer_name", etc.)}
+
+\item{force_masto}{Logical. Whether to force an update of the Mastodon handle.}
+
+\item{force}{Logical. Whether to force an update of all handles.}
 }
 \value{
 Data frame with added names and social media handles.
