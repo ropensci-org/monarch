@@ -28,16 +28,31 @@ fetch <- function(values, type = "mastodon", n = 1) {
 
   github <- purrr::map(
     stats::setNames(nm = tolower(values)),
-    \(x) socials$github[stringr::str_detect(tolower(socials$value), x)]
+    \(x) {
+      g <- socials$github[
+        tolower(socials$value) == tolower(x) & !is.na(socials$value)
+      ]
+      if (!length(g)) {
+        g <- socials$github[
+          stringr::str_detect(tolower(socials$value), x) & !is.na(socials$value)
+        ]
+      }
+      g
+    }
   ) |>
     purrr::map(\(x) unique(x[!is.null(x) & !is.na(x)]))
 
   if (any(lengths(github) > 1)) {
+    g <- github[lengths(github) > 1]
+    g_ids <- purrr::map_chr(g, \(x) paste0(x, collapse = ", "))
+    g <- paste(names(g), "(", g_ids, ")")
     warning(
       "Matched multiple ids to ",
-      paste0(names(github)[lengths(github) > 1], collapse = ", "),
+      paste0(g, collapse = ", "),
+      "Using returning the first match",
       call. = FALSE
     )
+    github <- purrr::map(github, \(x) x[1])
   }
 
   s <- socials[socials$type == type, ]

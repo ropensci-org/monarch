@@ -12,6 +12,7 @@ gh_cache <- memoise::memoise(gh::gh, omit_args = c(".max_rate"))
 
 name_options <- function(names) {
   names <- stringr::str_remove_all(names, "\\.")
+  names <- na.omit(names)
   names_split <- stringr::str_split_1(names, " ")
   if (length(names_split) > 2) {
     names_split <- names_split[c(1, length(names_split))]
