@@ -23,9 +23,10 @@
 #'   author_name = "Steffi LaZerte",
 #'   pkg = "weathercan",
 #'   owner = "ropensci",
-#'   author_github = NA
+#'   author_github = "steffilazerte"
 #' )
 #'
+#' add_handles(d, primary = "name", prefix = "author_", pkg_col = "pkg", owner_col = "owner", which_cols = "github")
 #' add_handles(d, primary = "name", prefix = "author_", pkg_col = "pkg", owner_col = "owner")
 #'
 #' d <- data.frame(github = "steffilazerte")
@@ -34,15 +35,14 @@
 #' # If all complete, do not overwrite unless force == TRUE
 #' d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test", linkedin = "test")
 #' add_handles(d)
-#'
-#' d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test", linkedin = "test")
 #' add_handles(d, force = TRUE)
 #'
 #' # Use name for linked in (always)
 #' d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test")
 #' add_handles(d)
 #'
-#'  d <- data.frame(github = "steffilazerte", name = "test")
+#' # If not all complete, will overwrite...
+#' d <- data.frame(github = "steffilazerte", name = "test")
 #' add_handles(d)
 
 add_handles <- function(
@@ -72,6 +72,18 @@ add_handles <- function(
     "linkedin" = linkedin_col
   )
 
+  fetch_cols <- which_cols[!which_cols %in% "linkedin"]
+  if (!"name" %in% which_cols && "linkedin" %in% which_cols) {
+    fetch_cols <- c(fetch_cols, "name")
+  }
+
+  cols_return <- unique(c(names(df), cols[which_cols]))
+
+  # Add in missing handle columns
+  for (c in cols[which_cols]) {
+    if (!c %in% names(df)) df[c] <- NA
+  }
+
   # Which are done?
   complete <- data.frame()
   if (!force) {
@@ -90,19 +102,10 @@ add_handles <- function(
       if (is.null(complete[[linkedin_col]]) && "linkedin" %in% which_cols) {
         complete[[linkedin_col]] <- complete[[name_col]]
       }
-      return(complete[cols[which_cols]])
+      return(complete[cols_return])
     }
   }
 
-  if (
-    primary != "github" &&
-      github_col %in% names(df) &&
-      !anyNA(df[[github_col]])
-  ) {
-    cli::cli_abort(
-      "If you have github handles you should use `primary = 'github'`"
-    )
-  }
   if (primary != "github" && primary != "name") {
     cli::cli_abort(
       "Cannot fetch handles without a 'github' or 'name' as the primary column"
@@ -115,7 +118,7 @@ add_handles <- function(
       github_col,
       name_col,
       mastodon_col,
-      which_cols,
+      fetch_cols,
       force_masto
     )
   } else if (primary == "name") {
@@ -124,7 +127,7 @@ add_handles <- function(
       github_col,
       name_col,
       mastodon_col,
-      which_cols,
+      fetch_cols,
       pkg_col,
       owner_col,
       force_masto
@@ -173,44 +176,42 @@ add_handles_github <- function(
   github_col,
   name_col,
   mastodon_col,
-  which_cols,
+  fetch_cols,
   force_masto
 ) {
   # Add existing
-  df <- add_existing(df, name_col, github_col, "name", which_cols)
-  df <- add_existing(df, mastodon_col, github_col, "mastodon", which_cols)
+  df <- add_existing(df, name_col, github_col, "name", fetch_cols)
+  df <- add_existing(df, mastodon_col, github_col, "mastodon", fetch_cols)
 
-  if ("mastodon" %in% which_cols && force_masto) {
+  if ("mastodon" %in% fetch_cols && force_masto) {
     df[[mastodon_col]] <- NA
   }
 
-  cols <- c(
-    "github" = github_col,
-    c("name" = name_col, "mastodon" = mastodon_col)[which_cols]
-  )
+  cols <- c("github" = github_col, "name" = name_col, "mastodon" = mastodon_col)
+  cols <- cols[c("github", fetch_cols[fetch_cols != "github"])] # Must always have github
 
   # Get missing mastodon/names from github
   chk <- dplyr::select(df, dplyr::any_of(unname(cols))) |>
     dplyr::filter(!is.na(.data[[cols["github"]]]))
 
-  complete <- complete.cases(chk[[cols[which_cols[which_cols != "github"]]]])
+  complete <- complete.cases(chk[cols])
 
   chk <- chk[!complete, ] |>
     dplyr::distinct() |>
     dplyr::rename(dplyr::any_of(c("github" = github_col)))
 
   purrr::pwalk(chk, \(github, ...) {
-    monarch::socials_fetch(
+    socials_fetch(
       github = github,
-      which_cols = which_cols,
+      which_cols = fetch_cols,
       force_masto = force_masto
     ) |>
-      monarch::cocoon_update()
+      cocoon_update()
   })
 
   # Add newly fetched existing
-  df <- add_existing(df, name_col, github_col, "name", which_cols)
-  df <- add_existing(df, mastodon_col, github_col, "mastodon", which_cols)
+  df <- add_existing(df, name_col, github_col, "name", fetch_cols)
+  df <- add_existing(df, mastodon_col, github_col, "mastodon", fetch_cols)
 
   df
 }
@@ -220,7 +221,7 @@ add_handles_name <- function(
   github_col,
   name_col,
   mastodon_col,
-  which_cols,
+  fetch_cols,
   pkg_col,
   owner_col,
   force_masto
@@ -232,10 +233,10 @@ add_handles_name <- function(
   }
 
   # Add existing
-  df <- add_existing(df, github_col, name_col, "github", which_cols)
-  df <- add_existing(df, mastodon_col, name_col, "mastodon", which_cols)
+  df <- add_existing(df, github_col, name_col, "github", fetch_cols)
+  df <- add_existing(df, mastodon_col, name_col, "mastodon", fetch_cols)
 
-  if ("mastodon" %in% which_cols && force_masto) {
+  if ("mastodon" %in% fetch_cols && force_masto) {
     df[[mastodon_col]] <- NA
 
     # Get missing mastodon from existing github
@@ -252,7 +253,7 @@ add_handles_name <- function(
     purrr::pwalk(chk, \(github, ...) {
       monarch::socials_fetch(
         github = github,
-        which_cols = which_cols,
+        which_cols = fetch_cols,
         force_masto = force_masto
       ) |>
         monarch::cocoon_update()
@@ -274,21 +275,21 @@ add_handles_name <- function(
     purrr::pwalk(
       chk,
       \(name, pkg = NULL, owner = NULL, ...) {
-        monarch::socials_fetch(
+        socials_fetch(
           name = name,
           pkg = pkg,
           owner = owner,
-          which_cols = which_cols,
+          which_cols = fetch_cols,
           force_masto = force_masto
         ) |>
-          monarch::cocoon_update()
+          cocoon_update()
       }
     )
   }
 
   # Add newly fetched existing
-  df <- add_existing(df, github_col, name_col, "github", which_cols)
-  df <- add_existing(df, mastodon_col, name_col, "mastodon", which_cols)
+  df <- add_existing(df, github_col, name_col, "github", fetch_cols)
+  df <- add_existing(df, mastodon_col, name_col, "mastodon", fetch_cols)
 
   df
 }
