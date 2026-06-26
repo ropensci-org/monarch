@@ -128,7 +128,7 @@ socials_ro <- function(
   github = NULL,
   quiet = FALSE
 ) {
-  if (is.null(names) & !is.null(socials)) {
+  if (is.null(names) && !is.null(socials)) {
     names <- socials$value[socials$type == "name"]
     if (length(names) == 0) names <- NULL
   }
@@ -141,7 +141,7 @@ socials_ro <- function(
     stop("Must provide either a `socials` data frame or `names`")
   }
 
-  if (is.null(github) & !is.null(socials)) {
+  if (is.null(github) && !is.null(socials)) {
     github <- socials$github[1]
   }
 
@@ -239,7 +239,7 @@ socials_masto <- function(
     message("Searching for Mastodon handle by", appendLF = FALSE)
   }
 
-  if (is.null(socials) & is.null(names) & is.null(github)) {
+  if (is.null(socials) && is.null(names) && is.null(github)) {
     stop(
       "Must provide a `socials` data frame, a `name`, or a `github` handle for searching",
       call. = FALSE
@@ -255,7 +255,7 @@ socials_masto <- function(
       unique() |>
       stats::setNames(nm = _)
   } else {
-    names_family = NULL
+    names_family <- NULL
   }
 
   # Websites and GitHub
@@ -328,7 +328,7 @@ socials_update <- function(
   type = NULL,
   value = NULL
 ) {
-  if (is.null(socials_new) & !is.null(type) & !is.null(value)) {
+  if (is.null(socials_new) && !is.null(type) && !is.null(value)) {
     socials_new <- data.frame(
       type = type,
       value = value,
@@ -441,7 +441,6 @@ gh_search <- function(
     msg <- paste0(msg, " (", pkg, ")")
   }
   message(msg)
-
   # Get potential users
   if (!is.null(pkg)) {
     endpoint <- "/repos/{owner}/{pkg}/contributors"
