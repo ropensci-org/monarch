@@ -4,7 +4,7 @@
 \alias{gh_search}
 \title{Find GH username from repository and full name}
 \usage{
-gh_search(name, pkg = NULL, owner = "ropensci", open_browser = TRUE)
+gh_search(name, pkg = NULL, owner = "ropensci", open_browser = interactive())
 }
 \arguments{
 \item{name}{Character. Full or partial name of the person for whom you want

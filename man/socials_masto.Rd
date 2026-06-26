@@ -9,7 +9,7 @@ socials_masto(
   names = NULL,
   github = NULL,
   force = FALSE,
-  open_browser = TRUE,
+  open_browser = interactive(),
   quiet = FALSE
 )
 }
