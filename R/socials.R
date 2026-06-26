@@ -225,7 +225,7 @@ socials_masto <- function(
   names = NULL,
   github = NULL,
   force = FALSE,
-  open_browser = TRUE,
+  open_browser = interactive(),
   quiet = FALSE
 ) {
   #TODO: Can we get the Github profile information from a mastodon account?
@@ -434,7 +434,7 @@ gh_search <- function(
   name,
   pkg = NULL,
   owner = "ropensci",
-  open_browser = TRUE
+  open_browser = interactive()
 ) {
   msg <- paste("Finding GitHub username from name:", name)
   if (!is.null(pkg)) {
@@ -504,22 +504,27 @@ gh_search <- function(
         lapply(utils::browseURL)
     }
 
-    repeat {
-      opts <- paste0(u$github[q], " (", u$name[q], ")") |>
-        rlang::set_names(u$github[q])
-      if (nrow(u) > max(q)) {
-        opts <- c(opts, "Try some more")
-      }
-      opts <- c(opts, "None of the above")
+    if (interactive()) {
+      repeat {
+        opts <- paste0(u$github[q], " (", u$name[q], ")") |>
+          rlang::set_names(u$github[q])
+        if (nrow(u) > max(q)) {
+          opts <- c(opts, "Try some more")
+        }
+        opts <- c(opts, "None of the above")
 
-      rlang::inform("Which handle is correct?")
-      github <- utils::menu(opts)
-      if (opts[github] == "Try some more") {
-        q <- seq(max(q) + 1, length.out = 5)
-      } else {
-        github <- names(opts)[github]
-        break
+        rlang::inform("Which handle is correct?")
+        github <- utils::menu(opts)
+        if (opts[github] == "Try some more") {
+          q <- seq(max(q) + 1, length.out = 5)
+        } else {
+          github <- names(opts)[github]
+          break
+        }
       }
+    } else {
+      # Non-interactively, assume first is correct
+      github <- u$github[1]
     }
     return(github)
   } else {
@@ -617,7 +622,10 @@ masto_best <- function(masto_options, github, website, open_browser) {
     # If matches github, return without asking
 
     message("Found ", best$acct)
-    masto <- best$acct
+
+    return(best$acct)
+  } else if (!interactive()) {
+    return(NA)
   } else if (nrow(best) > 0) {
     # Otherwise ask for confirmation
 
@@ -658,9 +666,8 @@ masto_best <- function(masto_options, github, website, open_browser) {
     } else if (masto == "None - Doesn't use mastodon") {
       return("none")
     }
+    return(masto)
   }
-
-  masto
 }
 
 masto_compare <- function(opts, github, website) {
@@ -719,7 +726,7 @@ masto_common <- function(masto) {
     return(masto[[1]])
   }
 
-  if (nrow(masto[[1]]) > 0 & nrow(masto[[2]]) > 0) {
+  if (nrow(masto[[1]]) > 0 && nrow(masto[[2]]) > 0) {
     m <- dplyr::inner_join(masto[[1]], masto[[2]], by = names(masto[[1]]))
     if (nrow(m) == 0) m <- dplyr::bind_rows(masto[[1]], masto[[2]])
   } else if (nrow(masto[[1]]) > 0) {
