@@ -10,7 +10,7 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    gh (>= 1.4.1),
+    gh (>= 1.6.0),
     rlang,
     rtoot
 RoxygenNote: 7.3.3
