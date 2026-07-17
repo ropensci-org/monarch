@@ -10,7 +10,7 @@ fmt_key_list <- function(l, keep = NULL) {
       names_to = "type",
       values_to = "value"
     ) |>
-    dplyr::filter(value != "")
+    dplyr::filter(.data$value != "")
 }
 
 fmt_socials <- function(socials, github = NULL) {
@@ -31,29 +31,31 @@ fmt_socials <- function(socials, github = NULL) {
     socials,
 
     # Clean up types
-    type = tolower(type),
+    type = tolower(.data$type),
     type = dplyr::case_when(
-      type %in% c("blog", "url", "link") ~ "website",
-      stringr::str_detect(value, "orcid\\.org") ~ "orcid",
-      stringr::str_detect(value, "bsky\\.app") ~ "bluesky",
-      stringr::str_detect(value, "youtube") ~ "youtube",
-      .default = type
+      .data$type %in% c("blog", "url", "link") ~ "website",
+      stringr::str_detect(.data$value, "orcid\\.org") ~ "orcid",
+      stringr::str_detect(.data$value, "bsky\\.app") ~ "bluesky",
+      stringr::str_detect(.data$value, "youtube") ~ "youtube",
+      .default = .data$type
     ),
 
     # Clean up values
     value = stringr::str_replace_all(
-      value,
+      .data$value,
       c("https?://orcid.org/" = "", "/$" = "")
     ),
     value = dplyr::case_when(
-      type == "mastodon" ~ fmt_masto(value),
-      type %in% c("twitter", "bluesky", "youtube") ~ fmt_handles(value),
-      type == "website" ~ fmt_website(value),
-      type != "name" ~ tolower(value),
-      .default = value
+      .data$type == "mastodon" ~ fmt_masto(.data$value),
+      .data$type %in% c("twitter", "bluesky", "youtube") ~ fmt_handles(
+        .data$value
+      ),
+      .data$type == "website" ~ fmt_website(.data$value),
+      .data$type != "name" ~ tolower(.data$value),
+      .default = .data$value
     )
   ) |>
-    dplyr::filter(!type %in% c("bio", "img")) |>
+    dplyr::filter(!.data$type %in% c("bio", "img")) |>
     fmt_arrange()
 }
 
@@ -61,10 +63,10 @@ fmt_socials <- function(socials, github = NULL) {
 fmt_arrange <- function(socials) {
   socials |>
     dplyr::mutate(
-      type = factor(type, levels = fmt_types()),
-      nchar = nchar(value)
+      type = factor(.data$type, levels = fmt_types()),
+      nchar = nchar(.data$value)
     ) |>
-    dplyr::arrange(github, type, nchar) |>
+    dplyr::arrange(.data$github, .data$type, .data$nchar) |>
     dplyr::select(-"nchar")
 }
 
@@ -96,7 +98,7 @@ fmt_types <- function() {
 #' @return Character user handle @user@instance
 #' @export
 #'
-#' @examples
+#' @examplesIf local_eg()
 #' fmt_masto("https://fosstodon.org/@steffilazerte")
 #' fmt_masto("steffi lazerte")
 #' fmt_masto("@steffilazerte@fosstodon.org")

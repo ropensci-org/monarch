@@ -15,13 +15,15 @@
 #'   also provided).
 #' @param pkg Character. Repository name for an rOpenSci package (in the
 #'   `ropensci` organization)
+#' @param which_cols Character vector. Social handles to include defaults to
+#' "github", "name", "mastodon".
 #'
 #' @inheritParams common_docs
 #'
 #' @return Data frame of contact information
 #' @export
 #'
-#' @examples
+#' @examplesIf local_eg()
 #' socials_fetch("steffilazerte")
 #' socials_fetch(name = "Steffi LaZerte", pkg = "weathercan")
 #' socials_fetch(name = "Bart Vanhoorne", pkg = "worrms")
@@ -73,7 +75,7 @@ socials_fetch <- function(
 #'   information and the GitHub username identifying the individual.
 #' @export
 #'
-#' @examples
+#' @examplesIf local_eg()
 #' socials_gh("steffilazerte")
 
 socials_gh <- function(github, quiet = FALSE) {
@@ -106,7 +108,7 @@ socials_gh <- function(github, quiet = FALSE) {
 #' additional name to the socials data frame to keep track of minor variations in
 #' names.
 #'
-#' @param name Character. Optional, supply the full name as on RO author pages.
+#' @param names Character. Optional, supply the full name as on RO author pages.
 #'   (Doesn't require the socials data frame)
 #'
 #' @inheritParams common_docs
@@ -116,7 +118,7 @@ socials_gh <- function(github, quiet = FALSE) {
 #'   information and the GitHub username identifying the individual.
 #' @export
 #'
-#' @examples
+#' @examplesIf local_eg()
 #' socials_gh("steffilazerte") |>
 #'   socials_ro()
 #'
@@ -315,10 +317,12 @@ socials_masto <- function(
 #' @param value Character. Value of data to add  (to add a single value,
 #'   alternative to `socials_new`).
 #'
+#' @inheritParams common_docs
+#'
 #' @return Socials data frame with new values
 #' @export
 #'
-#' @examples
+#' @examplesIf local_eg()
 #' socials_fetch("steffilazerte") |>
 #'   socials_update(type = "name", value = "Stefanie LaZerte") # Add an alias
 
@@ -369,17 +373,17 @@ socials_update <- function(
     u <- apply(update, MARGIN = 1, \(x) {
       if (interactive()) {
         resp <- usethis::ui_yeah(
-        paste0(
-          tools::toTitleCase(x[["type"]]),
-          ": ",
-          "Use the new value (",
-          x[["value"]],
-          ") ",
-          "instead of the original one (",
-          x[["value_orig"]],
-          ")?"
+          paste0(
+            tools::toTitleCase(x[["type"]]),
+            ": ",
+            "Use the new value (",
+            x[["value"]],
+            ") ",
+            "instead of the original one (",
+            x[["value_orig"]],
+            ")?"
+          )
         )
-      )
       } else {
         # Do not use new values if non-interactive
         resp <- FALSE
@@ -422,16 +426,13 @@ socials_build <- function(which_cols = c("github", "name", "mastodon")) {
 #'
 #' @param name Character. Full or partial name of the person for whom you want
 #'   to fetch the GitHub username.
-#' @param pkg Character. (Optional) Repository name (package name).
-#' @param owner Character. (Optional) Owner of the repository.
 #'
 #' @inheritParams common_docs
 #'
 #' @return Accepted user name
 #' @export
 #'
-#' @examples
-#'
+#' @examplesIf local_eg()
 #' gh_search(name = "Steffi E. LaZerte", pkg = "weathercan")
 #' gh_search(name = "Steffi", pkg = "weathercan")
 
@@ -467,7 +468,7 @@ gh_search <- function(
       fmt_key_list(x, keep = c("name", "email", "blog", "login"))
     }) |>
     dplyr::bind_rows(.id = "github") |>
-    dplyr::mutate(url = paste0("https://github.com/", github))
+    dplyr::mutate(url = paste0("https://github.com/", .data$github))
 
   # Names to check - Try also without initials or middle names
   n <- name_options(name)
@@ -475,13 +476,13 @@ gh_search <- function(
   u <- users |>
     dplyr::mutate(
       match = stringr::str_detect(
-        tolower(value),
-        tolower(paste0(n, collapse = "|"))
+        tolower(.data$value),
+        tolower(paste0(.env$n, collapse = "|"))
       )
     ) |>
-    dplyr::filter(any(match), .by = "github") |>
-    dplyr::filter(type == "name") |>
-    dplyr::select(github, name = value, url) |>
+    dplyr::filter(any(.data$match), .by = "github") |>
+    dplyr::filter(.data$type == "name") |>
+    dplyr::select("github", "name" = "value", "url") |>
     dplyr::distinct()
 
   if (open_browser) {
@@ -577,15 +578,15 @@ masto_search <- function(name) {
 
   if (nrow(m) > 0) {
     m <- m |>
-      dplyr::filter(!bot) |>
+      dplyr::filter(!.data$bot) |>
       dplyr::mutate(
-        github = purrr::map(fields, \(x) {
+        github = purrr::map(.data$fields, \(x) {
           fields_match(x, "github", "(?<=>github.com/)[a-zA-Z-]+")
         }),
-        website = purrr::map(fields, \(x) {
+        website = purrr::map(.data$fields, \(x) {
           fields_match(x, "web|blog|homepage", "http[^\"]+")
         }),
-        rstats = stringr::str_detect(tolower(note), "rstats")
+        rstats = stringr::str_detect(tolower(.data$note), "rstats")
       ) |>
       dplyr::select(
         "id",
@@ -598,8 +599,11 @@ masto_search <- function(name) {
         "url"
       ) |>
       tidyr::unnest(cols = c("github", "website"), keep_empty = TRUE) |>
-      dplyr::mutate(sort = factor(id, levels = id), acct = fmt_masto(acct)) |>
-      dplyr::arrange(dplyr::desc(rstats), id)
+      dplyr::mutate(
+        sort = factor(.data$id, levels = .data$id),
+        acct = fmt_masto(.data$acct)
+      ) |>
+      dplyr::arrange(dplyr::desc(.data$rstats), .data$id)
   }
   m
 }

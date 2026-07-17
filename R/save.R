@@ -2,10 +2,12 @@
 #'
 #' Save/Update your local copy of the contact information.
 #'
+#' @inheritParams common_docs
+#'
 #' @return Nothing
 #' @export
 #'
-#' @examples
+#' @examplesIf local_eg()
 #' socials_fetch("steffilazerte") |>
 #'   cocoon_update()
 #'
@@ -49,7 +51,7 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
 #' @returns Data frame of socials
 #' @export
 #'
-#' @examples
+#' @examplesIf local_eg()
 #' cocoon_fetch("steffilazerte")
 #' cocoon_fetch("steffi LaZerte", type = "name")
 
@@ -68,8 +70,8 @@ cocoon_fetch <- function(value, type = "github") {
   } else {
     gh <- dplyr::filter(
       socials,
-      type == .env$type,
-      tolower(value) == tolower(.env$value)
+      .data$type == .env$type,
+      tolower(.data$value) == tolower(.env$value)
     ) |>
       dplyr::pull(.data$github)
   }
@@ -77,7 +79,7 @@ cocoon_fetch <- function(value, type = "github") {
   if (length(gh) == 0) {
     stop("No user identified", call. = FALSE)
   }
-  dplyr::filter(socials, github == .env$gh)
+  dplyr::filter(socials, .data$github == .env$gh)
 }
 
 #' Load socials data from local file
@@ -87,7 +89,7 @@ cocoon_fetch <- function(value, type = "github") {
 #' @return Socials data frame
 #' @export
 #'
-#' @examples
+#' @examplesIf local_eg()
 #' cocoon_open()
 cocoon_open <- function() {
   if (file.exists(cache_file())) {
@@ -112,7 +114,7 @@ cocoon_open <- function() {
 #' @returns Socials data frame
 #'
 #' @export
-#' @examples
+#' @examplesIf local_eg()
 #' cocoon_fetch("steffilazerte")
 #' cocoon_remove("steffilazerte")
 #' cocoon_fetch("steffilazerte")
@@ -143,7 +145,7 @@ cache_dir <- function() {
 #' @returns Logical. TRUE if it exists, FALSE if not.
 #'
 #' @export
-#' @examples
+#' @examplesIf local_eg()
 #' cache_check()
 
 cache_check <- function() {

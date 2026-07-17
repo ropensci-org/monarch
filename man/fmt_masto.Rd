@@ -16,10 +16,12 @@ Character user handle @user@instance
 Convert a mastodon user link to handle
 }
 \examples{
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 fmt_masto("https://fosstodon.org/@steffilazerte")
 fmt_masto("steffi lazerte")
 fmt_masto("@steffilazerte@fosstodon.org")
 fmt_masto(NA)
 fmt_masto(c("https://fosstodon.org/@steffilazerte", "https://hackyderm.io/@ropensci"))
 fmt_masto("none")
+\dontshow{\}) # examplesIf}
 }

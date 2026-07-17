@@ -42,6 +42,7 @@ Data frame with added names and social media handles.
 Find and insert missing social media handles
 }
 \examples{
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 d <- data.frame(author_name = "Steffi LaZerte")
 add_handles(d, primary = "name", prefix = "author_")
 
@@ -52,14 +53,32 @@ d <- data.frame(
   author_github = "steffilazerte"
 )
 
-add_handles(d, primary = "name", prefix = "author_", pkg_col = "pkg", owner_col = "owner", which_cols = "github")
-add_handles(d, primary = "name", prefix = "author_", pkg_col = "pkg", owner_col = "owner")
+add_handles(
+  d,
+  primary = "name",
+  prefix = "author_",
+  pkg_col = "pkg",
+  owner_col = "owner",
+  which_cols = "github"
+)
+add_handles(
+  d,
+  primary = "name",
+  prefix = "author_",
+  pkg_col = "pkg",
+  owner_col = "owner"
+)
 
 d <- data.frame(github = "steffilazerte")
 add_handles(d)
 
 # If all complete, do not overwrite unless force == TRUE
-d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test", linkedin = "test")
+d <- data.frame(
+  github = "steffilazerte",
+  name = "test",
+  mastodon = "test",
+  linkedin = "test"
+)
 add_handles(d)
 add_handles(d, force = TRUE)
 
@@ -70,4 +89,5 @@ add_handles(d)
 # If not all complete, will overwrite...
 d <- data.frame(github = "steffilazerte", name = "test")
 add_handles(d)
+\dontshow{\}) # examplesIf}
 }

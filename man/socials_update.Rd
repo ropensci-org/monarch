@@ -7,6 +7,11 @@
 socials_update(socials, socials_new = NULL, type = NULL, value = NULL)
 }
 \arguments{
+\item{socials}{Data frame. Data frame of previously fetched/loaded social
+contact information. Data frame with three columns `type`, `value` and
+`github` to indicate the type and value of the contact information and the
+GitHub username identifying the individual.}
+
 \item{socials_new}{Data frame. New data to add/update. If adding only a
 single value, use `type` and `value` instead.}
 
@@ -26,6 +31,8 @@ value (i.e. names and websites). In all other cases, if there is more than
 one handle or id value, you will be asked to choose one to keep.
 }
 \examples{
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 socials_fetch("steffilazerte") |>
   socials_update(type = "name", value = "Stefanie LaZerte") # Add an alias
+\dontshow{\}) # examplesIf}
 }

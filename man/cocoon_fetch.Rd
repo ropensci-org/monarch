@@ -18,6 +18,8 @@ Data frame of socials
 Fetch all details on a social contact
 }
 \examples{
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 cocoon_fetch("steffilazerte")
 cocoon_fetch("steffi LaZerte", type = "name")
+\dontshow{\}) # examplesIf}
 }

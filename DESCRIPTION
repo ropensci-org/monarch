@@ -10,9 +10,20 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Imports: 
+    cli,
+    dplyr,
     gh (>= 1.6.0),
+    glue,
+    httr2,
+    memoise,
+    purrr,
+    readr,
     rlang,
-    rtoot
+    rtoot,
+    stringr,
+    tidyr,
+    usethis,
+    yaml
 RoxygenNote: 7.3.3
 Suggests: 
     testthat (>= 3.0.0)

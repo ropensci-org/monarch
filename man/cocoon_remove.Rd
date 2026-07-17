@@ -16,7 +16,9 @@ Socials data frame
 Remove Socials by GitHub handle
 }
 \examples{
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 cocoon_fetch("steffilazerte")
 cocoon_remove("steffilazerte")
 cocoon_fetch("steffilazerte")
+\dontshow{\}) # examplesIf}
 }

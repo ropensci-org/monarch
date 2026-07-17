@@ -15,5 +15,7 @@ asks user if it should be created. If non-interactive and not present, it
 is created automatically.
 }
 \examples{
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 cache_check()
+\dontshow{\}) # examplesIf}
 }

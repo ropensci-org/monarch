@@ -12,12 +12,12 @@ contact information. Data frame with three columns `type`, `value` and
 `github` to indicate the type and value of the contact information and the
 GitHub username identifying the individual.}
 
+\item{names}{Character. Optional, supply the full name as on RO author pages.
+(Doesn't require the socials data frame)}
+
 \item{github}{Character. Github username}
 
 \item{quiet}{Logical. Whether to suppress progress messages.}
-
-\item{name}{Character. Optional, supply the full name as on RO author pages.
-(Doesn't require the socials data frame)}
 }
 \value{
 Data frame of social contact information. Three columns `type`,
@@ -38,8 +38,10 @@ additional name to the socials data frame to keep track of minor variations in
 names.
 }
 \examples{
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 socials_gh("steffilazerte") |>
   socials_ro()
 
 socials_ro(names = c("Stefanie LaZerte", "Steffi LaZerte"))
+\dontshow{\}) # examplesIf}
 }

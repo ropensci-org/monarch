@@ -25,7 +25,8 @@ Look up users of a repository and match to a name. Try with and without
 initials.
 }
 \examples{
-
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 gh_search(name = "Steffi E. LaZerte", pkg = "weathercan")
 gh_search(name = "Steffi", pkg = "weathercan")
+\dontshow{\}) # examplesIf}
 }

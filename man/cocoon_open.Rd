@@ -13,5 +13,7 @@ Socials data frame
 Reads your local socials data for perusal or modification.
 }
 \examples{
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 cocoon_open()
+\dontshow{\}) # examplesIf}
 }

@@ -20,5 +20,7 @@ Data frame of social contact information. Three columns `type`,
 Using a GitHub username fetch the contact information from their profile.
 }
 \examples{
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 socials_gh("steffilazerte")
+\dontshow{\}) # examplesIf}
 }

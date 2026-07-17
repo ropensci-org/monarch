@@ -6,6 +6,16 @@
 \usage{
 cocoon_update(socials, type = NULL, value = NULL)
 }
+\arguments{
+\item{socials}{Data frame. Data frame of previously fetched/loaded social
+contact information. Data frame with three columns `type`, `value` and
+`github` to indicate the type and value of the contact information and the
+GitHub username identifying the individual.}
+
+\item{type}{Character. Type of `value` (e.g., "github" for github handle)}
+
+\item{value}{Character. Value to search by}
+}
 \value{
 Nothing
 }
@@ -13,6 +23,7 @@ Nothing
 Save/Update your local copy of the contact information.
 }
 \examples{
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 socials_fetch("steffilazerte") |>
   cocoon_update()
 
@@ -21,5 +32,5 @@ cocoon_update("steffilazerte")
 
 # Or add parts
 cocoon_update("steffilazerte", type = "name", value = "Stefanie LaZerte")
-
+\dontshow{\}) # examplesIf}
 }

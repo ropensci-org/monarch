@@ -12,7 +12,7 @@ gh_cache <- memoise::memoise(gh::gh, omit_args = c(".max_rate"))
 
 name_options <- function(names) {
   names <- stringr::str_remove_all(names, "\\.")
-  names <- na.omit(names)
+  names <- stats::na.omit(names)
   names_split <- stringr::str_split_1(names, " ")
   if (length(names_split) > 2) {
     names_split <- names_split[c(1, length(names_split))]
@@ -34,7 +34,7 @@ name_options <- function(names) {
 #' @return Character user handle @user@instance
 #' @export
 #'
-#' @examples
+#' @examplesIf local_eg()
 #' masto2user("https://fosstodon.org/@steffilazerte")
 #' masto2user("steffi")
 #' masto2user("@steffilazerte@fosstodon.org")
@@ -52,4 +52,17 @@ masto2user <- function(x) {
     n <- x
   }
   n
+}
+
+
+#' Detect if running examples locally
+#'
+#' Skip examples on CI or R-Universe
+#'
+#' @returns
+#'
+#' @export
+#' @examples
+local_eg <- function() {
+  !(isTRUE(Sys.getenv("CI")) | Sys.getenv("MY_UNIVERSE") != "")
 }

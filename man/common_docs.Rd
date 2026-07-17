@@ -11,6 +11,18 @@ GitHub username identifying the individual.}
 
 \item{github}{Character. Github username}
 
+\item{names}{Character. Names to fetch by.}
+
+\item{value}{Character. Value to search by}
+
+\item{type}{Character. Type of `value` (e.g., "github" for github handle)}
+
+\item{pkg}{Character. (Optional) Repository name (package name).}
+
+\item{owner}{Character. (Optional) Owner of the repository.}
+
+\item{force_masto}{Logical. Whether to force a re-fetching of Mastodon handles.}
+
 \item{open_browser}{Logical. Whether to open the profile page in a browser
 for confirmation.}
 

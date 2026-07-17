@@ -8,7 +8,7 @@ socials_fetch(
   github = NULL,
   name = NULL,
   pkg = NULL,
-  owner = NULL,
+  owner = "ropensci",
   which_cols = c("github", "name", "mastodon"),
   force_masto = FALSE,
   quiet = FALSE
@@ -22,6 +22,13 @@ also provided).}
 
 \item{pkg}{Character. Repository name for an rOpenSci package (in the
 `ropensci` organization)}
+
+\item{owner}{Character. (Optional) Owner of the repository.}
+
+\item{which_cols}{Character vector. Social handles to include defaults to
+"github", "name", "mastodon".}
+
+\item{force_masto}{Logical. Whether to force a re-fetching of Mastodon handles.}
 
 \item{quiet}{Logical. Whether to suppress progress messages.}
 }
@@ -42,8 +49,10 @@ which can take a while. However, if you supply a name and a `pkg` (repository
 in rOpenSci), it can be much faster.
 }
 \examples{
+\dontshow{if (local_eg()) withAutoprint(\{ # examplesIf}
 socials_fetch("steffilazerte")
 socials_fetch(name = "Steffi LaZerte", pkg = "weathercan")
 socials_fetch(name = "Bart Vanhoorne", pkg = "worrms")
 socials_fetch(name = "Maelle Salmon", pkg = "babelquarto", owner = "ropensci-review-tools")
+\dontshow{\}) # examplesIf}
 }

@@ -19,6 +19,8 @@ contact information. Data frame with three columns `type`, `value` and
 `github` to indicate the type and value of the contact information and the
 GitHub username identifying the individual.}
 
+\item{names}{Character. Names to fetch by.}
+
 \item{github}{Character. Github username}
 
 \item{force}{Logical. Whether to force a search even if the handle already

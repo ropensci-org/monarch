@@ -15,7 +15,8 @@
 #' @returns Data frame with added names and social media handles.
 #'
 #' @export
-#' @examples
+#'
+#' @examplesIf local_eg()
 #' d <- data.frame(author_name = "Steffi LaZerte")
 #' add_handles(d, primary = "name", prefix = "author_")
 #'
@@ -26,14 +27,32 @@
 #'   author_github = "steffilazerte"
 #' )
 #'
-#' add_handles(d, primary = "name", prefix = "author_", pkg_col = "pkg", owner_col = "owner", which_cols = "github")
-#' add_handles(d, primary = "name", prefix = "author_", pkg_col = "pkg", owner_col = "owner")
+#' add_handles(
+#'   d,
+#'   primary = "name",
+#'   prefix = "author_",
+#'   pkg_col = "pkg",
+#'   owner_col = "owner",
+#'   which_cols = "github"
+#' )
+#' add_handles(
+#'   d,
+#'   primary = "name",
+#'   prefix = "author_",
+#'   pkg_col = "pkg",
+#'   owner_col = "owner"
+#' )
 #'
 #' d <- data.frame(github = "steffilazerte")
 #' add_handles(d)
 #'
 #' # If all complete, do not overwrite unless force == TRUE
-#' d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test", linkedin = "test")
+#' d <- data.frame(
+#'   github = "steffilazerte",
+#'   name = "test",
+#'   mastodon = "test",
+#'   linkedin = "test"
+#' )
 #' add_handles(d)
 #' add_handles(d, force = TRUE)
 #'
@@ -91,7 +110,7 @@ add_handles <- function(
     if (ncol(df_check) == 0) {
       rows_complete <- NULL
     } else {
-      rows_complete <- which(complete.cases(df_check))
+      rows_complete <- which(stats::complete.cases(df_check))
     }
 
     if (length(rows_complete) > 0) {
@@ -194,7 +213,7 @@ add_handles_github <- function(
   chk <- dplyr::select(df, dplyr::any_of(unname(cols))) |>
     dplyr::filter(!is.na(.data[[cols["github"]]]))
 
-  complete <- complete.cases(chk[cols])
+  complete <- stats::complete.cases(chk[cols])
 
   chk <- chk[!complete, ] |>
     dplyr::distinct() |>
