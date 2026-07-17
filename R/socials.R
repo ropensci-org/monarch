@@ -31,7 +31,7 @@ socials_fetch <- function(
   github = NULL,
   name = NULL,
   pkg = NULL,
-  owner = NULL,
+  owner = "ropensci",
   which_cols = c("github", "name", "mastodon"),
   force_masto = FALSE,
   quiet = FALSE
@@ -367,7 +367,8 @@ socials_update <- function(
 
   if (nrow(update) > 0) {
     u <- apply(update, MARGIN = 1, \(x) {
-      usethis::ui_yeah(
+      if (interactive()) {
+        resp <- usethis::ui_yeah(
         paste0(
           tools::toTitleCase(x[["type"]]),
           ": ",
@@ -379,6 +380,10 @@ socials_update <- function(
           ")?"
         )
       )
+      } else {
+        # Do not use new values if non-interactive
+        resp <- FALSE
+      }
     })
     update <- update[u, ]
   }
@@ -391,7 +396,7 @@ socials_update <- function(
     fmt_arrange()
 }
 
-socials_build <- function(skip_masto = TRUE) {
+socials_build <- function(which_cols = c("github", "name", "mastodon")) {
   users <- gh_cache(
     endpoint = "/orgs/{owner}/members",
     owner = "ropensci",
@@ -404,7 +409,7 @@ socials_build <- function(skip_masto = TRUE) {
 
   lapply(users, \(x) {
     message("GitHub user: ", x, "---------------")
-    socials_fetch(x, skip_masto = skip_masto) |>
+    socials_fetch(x, which_cols = which_cols) |>
       cocoon_update()
   })
 }
@@ -541,9 +546,11 @@ gh_search <- function(
 #'
 #' @noRd
 ro_search <- function(names) {
-  names <- name_options(names)
-  names <- stringr::str_replace_all(names, " ", "-")
-  names <- tolower(names)
+  names <- purrr::map(names, name_options) |>
+    unlist() |>
+    unique() |>
+    stringr::str_replace_all(" ", "-") |>
+    tolower()
 
   sapply(names, \(x) {
     t <- try(
