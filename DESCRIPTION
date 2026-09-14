@@ -13,6 +13,8 @@ Description: Tools to find and keep track of contact info and social media
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+Depends:
+    R (>= 4.2.0)
 Imports: 
     cli,
     dplyr,
