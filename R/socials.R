@@ -57,6 +57,12 @@ socials_fetch <- function(
   }
 
   #TODO: Add socials_bluesky() to find bluesky handles directly
+  if ("bluesky" %in% which_cols && !any(s$type == "bluesky")) {
+    s <- dplyr::bind_rows(
+      s,
+      data.frame(type = "bluesky", value = "none", github = github)
+    )
+  }
 
   if (
     "name" %in%

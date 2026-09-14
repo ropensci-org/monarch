@@ -108,6 +108,8 @@ fmt_types <- function() {
 #' fmt_masto("none")
 
 fmt_masto <- function(x) {
+  x[is.na(x)] <- "none"
+
   stringr::str_replace_all(
     tolower(x),
     c(
@@ -119,13 +121,16 @@ fmt_masto <- function(x) {
 }
 
 fmt_handles <- function(x) {
+  x[is.na(x)] <- "none"
+
   stringr::str_replace_all(
     tolower(x),
     c(
       "https?://twitter.com/" = "@",
       "https?://bsky.app/profile/" = "@",
       "https?://www.youtube.com/" = "",
-      "^(?!@)" = "@"
+      "^(?!@)" = "@",
+      "@none" = "none"
     )
   )
 }
