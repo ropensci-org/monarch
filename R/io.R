@@ -158,10 +158,10 @@ add_handles_by <- function(h, by, pkg_col, owner_col) {
     missing <- h[missing, ] |>
       dplyr::distinct()
 
-    if (by == "name") {
-      purrr::pwalk(missing, \(name, pkg = NULL, owner = NULL, ...) {
-        # Pretend non-interactive so do not do interactive setting of mastodon
-        rlang::with_interactive(value = FALSE, {
+    # Pretend non-interactive so do not do interactive setting of mastodon
+    rlang::with_interactive(value = FALSE, {
+      if (by == "name") {
+        purrr::pwalk(missing, \(name, pkg = NULL, owner = NULL, ...) {
           socials_fetch(
             name = name,
             pkg = pkg_col,
@@ -170,20 +170,20 @@ add_handles_by <- function(h, by, pkg_col, owner_col) {
           ) |>
             cocoon_update()
         })
-      })
-    } else if (by == "github") {
-      purrr::pwalk(missing, \(github, ...) {
-        socials_fetch(
-          github = github,
-          which_cols = names(h)[names(h) != "github"]
-        ) |>
-          cocoon_update()
-      })
-    }
+      } else if (by == "github") {
+        purrr::pwalk(missing, \(github, ...) {
+          socials_fetch(
+            github = github,
+            which_cols = names(h)[names(h) != "github"]
+          ) |>
+            cocoon_update()
+        })
+      }
+    })
 
     # Add newly fetched existing
     for (c in names(h)[names(h) != by]) {
-      h <- add_existing(h, "name", c)
+      h <- add_existing(h, by, c)
     }
   }
 

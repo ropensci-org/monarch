@@ -227,7 +227,7 @@ socials_masto <- function(
   names = NULL,
   github = NULL,
   force = FALSE,
-  open_browser = interactive(),
+  open_browser = rlang::is_interactive(),
   quiet = FALSE
 ) {
   #TODO: Can we get the Github profile information from a mastodon account?
@@ -371,7 +371,7 @@ socials_update <- function(
 
   if (nrow(update) > 0) {
     u <- apply(update, MARGIN = 1, \(x) {
-      if (interactive()) {
+      if (rlang::is_interactive()) {
         resp <- usethis::ui_yeah(
           paste0(
             tools::toTitleCase(x[["type"]]),
@@ -440,7 +440,7 @@ gh_search <- function(
   name,
   pkg = NULL,
   owner = "ropensci",
-  open_browser = interactive()
+  open_browser = rlang::is_interactive()
 ) {
   msg <- paste("Finding GitHub username from name:", name)
   if (!is.null(pkg)) {
@@ -510,7 +510,7 @@ gh_search <- function(
         lapply(utils::browseURL)
     }
 
-    if (interactive()) {
+    if (rlang::is_interactive()) {
       repeat {
         opts <- paste0(u$github[q], " (", u$name[q], ")") |>
           rlang::set_names(u$github[q])
@@ -635,7 +635,7 @@ masto_best <- function(masto_options, github, website, open_browser) {
     message("Found ", best$acct)
 
     return(best$acct)
-  } else if (!interactive()) {
+  } else if (!rlang::is_interactive()) {
     return(NA)
   } else if (nrow(best) > 0) {
     # Otherwise ask for confirmation

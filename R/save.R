@@ -156,7 +156,7 @@ cache_check <- function() {
       cache_dir(),
       ") does not exist, create it?"
     ))
-    if (interactive()) {
+    if (rlang::is_interactive()) {
       create <- utils::menu(choices = c("Yes", "No"))
     } else {
       create <- 1
