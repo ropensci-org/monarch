@@ -7,33 +7,34 @@
 add_handles(
   df,
   primary = "github",
-  which_cols = c("github", "name", "mastodon", "linkedin"),
+  which_cols = c("github", "name", "mastodon", "bluesky", "linkedin"),
   pkg_col = "pkg",
   owner_col = "owner",
-  prefix = NULL,
-  force_masto = FALSE,
+  prefix = "",
   force = FALSE
 )
 }
 \arguments{
-\item{df}{Data frame with columns appended with `_name`, `_github`, `_mastodon`.}
+\item{df}{Data frame with at least 1 column appended with `_name` or `_github`.}
 
 \item{primary}{Character. Either "github" or "name", which ever column is the
 primary column by which social handles should be fetched.}
 
 \item{which_cols}{Character vector. Social columns to return, any of
-"github", "name", "mastodon", "linkedin".}
+"github", "name", "mastodon", "linkedin", "bluesky".}
 
 \item{pkg_col}{Character. Name of the "pkg" column. Optional but recommended
-for fetching by name.}
+for fetching by name when `primary = "name"`.}
 
-\item{owner_col}{Character. Name of the column containing repository owners for packages (`pkg_col`). Optional but recommended for fetching by name.}
+\item{owner_col}{Character. Name of the column containing repository owners
+for packages (`pkg_col`). Optional but recommended for fetching by name
+when `primary = "name"`.}
 
-\item{prefix}{Character. Optional prefix on column names (e.g. "maintainer_" for "maintainer_github", "matinainer_name", etc.)}
+\item{prefix}{Character. Optional prefix on column names (e.g. "maintainer_"
+for "maintainer_github", "maintainer_name", etc.)}
 
-\item{force_masto}{Logical. Whether to force an update of the Mastodon handle.}
-
-\item{force}{Logical. Whether to force an update of all handles.}
+\item{force}{Logical. Whether to force an update of all handles (not just
+those missing).}
 }
 \value{
 Data frame with added names and social media handles.
@@ -82,12 +83,17 @@ d <- data.frame(
 add_handles(d)
 add_handles(d, force = TRUE)
 
-# Use name for linked in (always)
+# Use name for LinkedIn (always)
 d <- data.frame(github = "steffilazerte", name = "test", mastodon = "test")
 add_handles(d)
 
-# If not all complete, will overwrite...
-d <- data.frame(github = "steffilazerte", name = "test")
-add_handles(d)
+d <- data.frame(
+  author_name = c("Steffi LaZerte", "Yanina Bellini Saibene"),
+  author_github = c("steffilazerte2", NA)
+)
+# Keep original github
+add_handles(d, primary = "name", prefix = "author_")
+# Get stored github
+add_handles(d, primary = "name", prefix = "author_", force = TRUE)
 \dontshow{\}) # examplesIf}
 }
