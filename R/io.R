@@ -162,19 +162,29 @@ add_handles_by <- function(h, by, pkg_col, owner_col) {
     rlang::with_interactive(value = FALSE, {
       if (by == "name") {
         purrr::pwalk(missing, \(name, pkg = NULL, owner = NULL, ...) {
+          w <- list(...)
+          w <- w[names(w) != "name"]
+          w <- w[purrr::map_lgl(w, \(x) is.na(x))]
+          w <- names(w)
+
           socials_fetch(
             name = name,
             pkg = pkg_col,
             owner = owner_col,
-            which_cols = names(h)[names(h) != "name"]
+            which_cols = w
           ) |>
             cocoon_update()
         })
       } else if (by == "github") {
         purrr::pwalk(missing, \(github, ...) {
+          w <- list(...)
+          w <- w[names(w) != "github"]
+          w <- w[purrr::map_lgl(w, \(x) is.na(x))]
+          w <- names(w)
+
           socials_fetch(
             github = github,
-            which_cols = names(h)[names(h) != "github"]
+            which_cols = w
           ) |>
             cocoon_update()
         })
