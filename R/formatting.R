@@ -86,7 +86,8 @@ fmt_types <- function() {
     "website",
     "email",
     "orcid",
-    "youtube"
+    "youtube",
+    "slack"
   )
 }
 
