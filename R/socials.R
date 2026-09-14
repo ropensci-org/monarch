@@ -34,22 +34,29 @@ socials_fetch <- function(
   name = NULL,
   pkg = NULL,
   owner = "ropensci",
-  which_cols = c("github", "name", "mastodon"),
+  which_cols = c("github", "name", "mastodon", "bluesky"),
   force_masto = FALSE,
   quiet = FALSE
 ) {
+  # First find github handle
   if (is.null(github)) {
     github <- gh_search(name, pkg, owner)
   }
 
+  # Get all handles associated with github (from GitHub handle)
   s <- socials_gh(github)
+
+  # Get all handles associated with rOpenSci author pages (from Name)
   if ("name" %in% s$type) {
     s <- socials_ro(s)
   }
 
+  # If looking for mastodon, fetch mastodon explicitly
   if ("mastodon" %in% which_cols) {
     s <- socials_masto(s, force = force_masto)
   }
+
+  #TODO: Add socials_bluesky() to find bluesky handles directly
 
   if (
     "name" %in%
@@ -290,7 +297,8 @@ socials_masto <- function(
   masto <- masto_best(masto_options, github, website, open_browser)
 
   if (is.na(masto)) {
-    message("No handles found")
+    masto <- "none"
+    message("No mastodon handle found")
   }
 
   if (!is.null(socials)) {
@@ -385,8 +393,12 @@ socials_update <- function(
           )
         )
       } else {
-        # Do not use new values if non-interactive
-        resp <- FALSE
+        # Use new values if existing value is NA
+        if (is.na(x[["value_orig"]])) {
+          resp <- TRUE
+        } else {
+          resp <- FALSE
+        }
       }
     })
     update <- update[u, ]
