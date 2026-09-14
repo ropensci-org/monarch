@@ -16,7 +16,6 @@
 #'
 #' # Or add parts
 #' cocoon_update("steffilazerte", type = "name", value = "Stefanie LaZerte")
-#'
 
 cocoon_update <- function(socials, type = NULL, value = NULL) {
   if (!cache_check()) {
@@ -40,7 +39,7 @@ cocoon_update <- function(socials, type = NULL, value = NULL) {
   socials_update(cocoon_open(), fmt_socials(socials_new)) |>
     readr::write_csv(cache_file())
 
-  cocoon_fetch(socials_new$github[1])
+  cocoon_fetch(socials_new$github)
 }
 
 #' Fetch all details on a social contact
@@ -66,7 +65,7 @@ cocoon_fetch <- function(value, type = "github") {
 
   socials <- cocoon_open()
   if (type == "github") {
-    gh <- value
+    gh <- unique(value)
   } else {
     gh <- dplyr::filter(
       socials,
@@ -79,6 +78,7 @@ cocoon_fetch <- function(value, type = "github") {
   if (length(gh) == 0) {
     stop("No user identified", call. = FALSE)
   }
+
   dplyr::filter(socials, .data$github == .env$gh)
 }
 
