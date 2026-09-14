@@ -43,6 +43,8 @@ socials_fetch <- function(
     github <- gh_search(name, pkg, owner)
   }
 
+  github <- tolower(github)
+
   # Get all handles associated with github (from GitHub handle)
   s <- socials_gh(github)
 
