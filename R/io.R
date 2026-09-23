@@ -127,10 +127,13 @@ add_handles <- function(
     # Add handles to original df
     h <- dplyr::rename(
       h,
-      stats::setNames(which_cols, paste0(prefix, which_cols))
+      stats::setNames(
+        c(primary, which_cols),
+        paste0(prefix, c(primary, which_cols))
+      )
     )
 
-    df <- add_missing_cols(df, paste0(prefix, which_cols))
+    df <- add_missing_cols(df, paste0(prefix, c(primary, which_cols)))
     df <- dplyr::rows_upsert(df, h, by = paste0(prefix, primary))
   }
 
