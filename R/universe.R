@@ -17,11 +17,7 @@ email_from_universe <- function(
   package = NULL,
   universe = "ropensci-staging"
 ) {
-  universe <- httr2::request(
-    sprintf("https://%s.r-universe.dev/api/packages", universe)
-  ) |>
-    httr2::req_perform() |>
-    httr2::resp_body_json()
+  universe <- get_universe(universe)
 
   if (!is.null(package)) {
     package <- purrr::keep(universe, \(x) x[["Package"]] == package) |>
@@ -47,3 +43,13 @@ email_from_universe <- function(
     package = package$Package
   )
 }
+
+.get_universe <- function(universe) {
+  httr2::request(
+    sprintf("https://%s.r-universe.dev/api/packages", universe)
+  ) |>
+    httr2::req_perform() |>
+    httr2::resp_body_json()
+}
+
+get_universe <- memoise::memoise(.get_universe)
