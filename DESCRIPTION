@@ -26,11 +26,12 @@ Imports:
     readr,
     rlang,
     rtoot,
+    stringdist,
     stringr,
     tidyr,
     usethis,
     yaml
-RoxygenNote: 7.3.3
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.0.9000
