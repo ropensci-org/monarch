@@ -20,10 +20,12 @@ email_from_universe <- function(
   universe <- get_universe(universe)
 
   if (!is.null(package)) {
-    package <- purrr::keep(universe, \(x) x[["Package"]] == package) |>
+    person_information <- purrr::keep(universe, \(x) {
+      x[["Package"]] == package
+    }) |>
       unlist(recursive = FALSE)
   } else {
-    package <- purrr::keep(universe, \(x) {
+    person_information <- purrr::keep(universe, \(x) {
       x[["_maintainer"]][["name"]] == name
     }) |>
       unlist(recursive = FALSE)
@@ -33,14 +35,14 @@ email_from_universe <- function(
         universe,
         \(x) stringdist::stringdist(x[["_maintainer"]][["name"]], name)
       )
-      package <- universe[[which(distances == min(distances))[1]]]
+      person_information <- universe[[which(distances == min(distances))[1]]]
     }
   }
 
   data.frame(
-    email = package$`_maintainer`$email,
-    name = package$`_maintainer`$name,
-    package = package$Package
+    email = person_information$`_maintainer`$email,
+    name = person_information$`_maintainer`$name,
+    package = person_information$Package
   )
 }
 
