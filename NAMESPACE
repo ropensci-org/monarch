@@ -6,6 +6,7 @@ export(cocoon_fetch)
 export(cocoon_open)
 export(cocoon_remove)
 export(cocoon_update)
+export(email_from_universe)
 export(fetch)
 export(fmt_masto)
 export(gh_search)
@@ -16,6 +17,8 @@ export(socials_gh)
 export(socials_masto)
 export(socials_ro)
 export(socials_update)
-importFrom(rlang,":=")
-importFrom(rlang,.data)
-importFrom(rlang,.env)
+importFrom(rlang,
+  ":=",
+  .data,
+  .env
+)

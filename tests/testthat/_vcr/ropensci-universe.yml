@@ -1,0 +1,1401 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://maelle.r-universe.dev/api/packages
+  response:
+    status: 200
+    headers:
+      date: Fri, 25 Sep 2026 07:11:43 GMT
+      content-type: application/json; charset=utf-8
+      server: cloudflare
+      x-powered-by: Express
+      access-control-allow-origin: '*'
+      cache-control: public, max-age=60
+      etag: W/"1790091925341"
+      last-modified: Tue, 22 Sep 2026 15:45:25 GMT
+      x-runiverse-cache: MISS
+      report-to: '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=fYtpR40BlTnnoTuJjNEp491UK7EcBrglWnD%2FtEJfdkXnG%2FxtVDRYWSJ9NbTc4Nb1aC88Ses4FBQoJqd3zJ01NftJKcVICxOFR4e%2FcgH5VGQ55Xf%2FxDWt%2BEykovFa6UR6ndKmpUsmsr0U4p47GCkU6ecktDk%3D"}]}'
+      nel: '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      cf-cache-status: REVALIDATED
+      content-encoding: zstd
+      cf-ray: a40837664c2ad70e-CDG
+      alt-svc: h3=":443"; ma=86400
+    body:
+      string: |-
+        [
+          {
+            "_type": "failure",
+            "_user": "maelle",
+            "Package": "cransays",
+            "Maintainer": "Hugo Gruson <hugo.gruson+r@normalesup.org>",
+            "_published": "2026-09-12T06:14:46.161Z",
+            "_upstream": "https://github.com/lockedata/cransays",
+            "_registered": true,
+            "_commit": {
+              "id": "aeaa1397fdb453e0a5b710ddc03a3fa04a89cf39",
+              "author": "Hugo Gruson <git@hugogruson.fr>",
+              "committer": "Hugo Gruson <git@hugogruson.fr>",
+              "message": "Add link to source code\n",
+              "time": 1783330856
+            },
+            "_maintainer": {
+              "name": "Hugo Gruson",
+              "email": "hugo.gruson+r@normalesup.org",
+              "login": "bisaloo",
+              "mastodon": "@grusonh@mastodon.social",
+              "orcid": "0000-0002-4094-1476",
+              "description": "Evolutionary Biologist turned Research Software Engineer in R.",
+              "uuid": 10783929
+            },
+            "_distro": "resolute",
+            "_jobs": [
+              {
+                "job": 103509714274,
+                "time": 242,
+                "config": "source",
+                "r": "4.6.1",
+                "check": "ERROR",
+                "artifact": "10292923135"
+              }
+            ],
+            "_host": "GitHub-Actions",
+            "_buildurl": "https://github.com/r-universe/maelle/actions/runs/34323283362",
+            "_created": "2026-09-12T06:14:46.161Z",
+            "_owner": "lockedata",
+            "_selfowned": false,
+            "_universes": [
+              "maelle"
+            ],
+            "_nocasepkg": "cransays",
+            "_failure": {
+              "version": "0.0.0.9000",
+              "commit": {
+                "id": "aeaa1397fdb453e0a5b710ddc03a3fa04a89cf39",
+                "author": "Hugo Gruson <git@hugogruson.fr>",
+                "committer": "Hugo Gruson <git@hugogruson.fr>",
+                "message": "Add link to source code\n",
+                "time": 1783330856
+              },
+              "buildurl": "https://github.com/r-universe/maelle/actions/runs/34323283362",
+              "date": "2026-09-12T06:14:46.161Z",
+              "job": {
+                "job": 103509714274,
+                "time": 242,
+                "config": "source",
+                "r": "4.6.1",
+                "check": "ERROR",
+                "artifact": "10292923135"
+              }
+            },
+            "_binaries": []
+          },
+          {
+            "Type": "Package",
+            "Package": "roblog",
+            "Title": "rOpenSci's blog guidance",
+            "Version": "0.1.0",
+            "Authors@R": "c(\nperson(\"Maëlle\", \"Salmon\", , \"maelle.salmon@yahoo.se\", role = c(\"aut\", \"cre\"),\ncomment = c(ORCID = \"0000-0002-2815-0399\")),\nperson(\"Stefanie\", \"Butland\", role = \"aut\"),\nperson(\"rOpenSci\", role = \"fnd\",\ncomment = c(\"https://ropensci.org/\", ROR = \"019jywm96\")),\nperson(\"Amanda\", \"Dobbyn\", , \"amanda.e.dobbyn@gmail.com\", role = \"ctb\"),\nperson(\"Christophe\", \"Dervieux\", role = \"ctb\"),\nperson(\"Romain\", \"LESUR\", role = \"ctb\")\n)",
+            "Description": "It provides templates for roweb2 blogging and help for a\nGitHub forking workflow.",
+            "License": "MIT + file LICENSE",
+            "URL": "https://docs.ropensci.org/roblog/,\nhttps://github.com/ropenscilabs/roblog",
+            "BugReports": "https://github.com/ropenscilabs/roblog/issues",
+            "VignetteBuilder": "knitr",
+            "Encoding": "UTF-8",
+            "Roxygen": "list(markdown = TRUE)",
+            "RoxygenNote": "7.2.1",
+            "Config/testthat/edition": "3",
+            "Config/ropensci/maintainer": "staff",
+            "Config/pak/sysreqs": "cmake git make libgit2-dev libicu-dev libuv1-dev\nlibxml2-dev libssl-dev libx11-dev",
+            "Repository": "https://maelle.r-universe.dev",
+            "Date/Publication": "2026-02-18 14:57:52 UTC",
+            "RemoteUrl": "https://github.com/ropenscilabs/roblog",
+            "RemoteRef": "HEAD",
+            "RemoteSha": "447b75c2aebdae2a8b2fd674d17da4ed0b9c999a",
+            "NeedsCompilation": "no",
+            "Packaged": {
+              "Date": "2026-09-16 07:20:19 UTC",
+              "User": "root"
+            },
+            "Author": "Maëlle Salmon [aut, cre] (ORCID:\n<https://orcid.org/0000-0002-2815-0399>),\nStefanie Butland [aut],\nrOpenSci [fnd] (https://ropensci.org/, ROR:\n<https://ror.org/019jywm96>),\nAmanda Dobbyn [ctb],\nChristophe Dervieux [ctb],\nRomain LESUR [ctb]",
+            "Maintainer": "Maëlle Salmon <maelle.salmon@yahoo.se>",
+            "_user": "maelle",
+            "_type": "src",
+            "_file": "roblog_0.1.0.tar.gz",
+            "_fileid": "https://r2.ropensci.org/8a0e43be5efe816b955bba4e72caf308a2daa8abc0cda0380d761773bbd0a561",
+            "_filesize": 93817,
+            "_sha256": "8a0e43be5efe816b955bba4e72caf308a2daa8abc0cda0380d761773bbd0a561",
+            "_expires": "2026-12-25T07:36:26.000Z",
+            "_created": "2026-09-16T07:20:19.000Z",
+            "_published": "2026-09-17T06:28:28.614Z",
+            "_jobs": [
+              {
+                "job": 105099418581,
+                "time": 164,
+                "config": "linux-devel-x86_64",
+                "r": "4.7.0",
+                "check": "OK",
+                "artifact": "10483892131"
+              },
+              {
+                "job": 105099418635,
+                "time": 190,
+                "config": "linux-release-x86_64",
+                "r": "4.6.1",
+                "check": "OK",
+                "artifact": "10484031614"
+              },
+              {
+                "job": 105099420294,
+                "time": 170,
+                "config": "macos-oldrel-arm64",
+                "r": "4.5.3",
+                "check": "OK",
+                "artifact": "10434409426"
+              },
+              {
+                "job": 105099419661,
+                "time": 174,
+                "config": "macos-release-arm64",
+                "r": "4.6.1",
+                "check": "OK",
+                "artifact": "10435735468"
+              },
+              {
+                "job": 105099419008,
+                "time": 197,
+                "config": "source",
+                "r": "4.6.1",
+                "check": "OK",
+                "artifact": "10434948158"
+              },
+              {
+                "job": 105099420153,
+                "time": 129,
+                "config": "wasm-release",
+                "r": "4.6.0",
+                "check": "OK",
+                "artifact": "10435217286"
+              },
+              {
+                "job": 105099420276,
+                "time": 74,
+                "config": "windows-devel-x86_64",
+                "r": "4.7.0",
+                "check": "OK",
+                "artifact": "10435480315"
+              },
+              {
+                "job": 105099420552,
+                "time": 71,
+                "config": "windows-oldrel-x86_64",
+                "r": "4.5.3",
+                "check": "OK",
+                "artifact": "10434758800"
+              },
+              {
+                "job": 105099420258,
+                "time": 84,
+                "config": "windows-release-x86_64",
+                "r": "4.6.1",
+                "check": "OK",
+                "artifact": "10435310778"
+              }
+            ],
+            "_host": "GitHub-Actions",
+            "_buildurl": "https://github.com/r-universe/maelle/actions/runs/35067730691",
+            "_status": "success",
+            "_upstream": "https://github.com/ropenscilabs/roblog",
+            "_commit": {
+              "id": "447b75c2aebdae2a8b2fd674d17da4ed0b9c999a",
+              "author": "Maëlle Salmon <maelle.salmon@yahoo.se>",
+              "committer": "GitHub <noreply@github.com>",
+              "message": "docs: use config field (#66)\n\n* Update .Rbuildignore\n\n* Update DESCRIPTION",
+              "time": 1771426672
+            },
+            "_maintainer": {
+              "name": "Maëlle Salmon",
+              "email": "maelle.salmon@yahoo.se",
+              "login": "maelle",
+              "mastodon": "@maelle@mastodon.social",
+              "bluesky": "@masalmon.eu",
+              "orcid": "0000-0002-2815-0399",
+              "description": "R(esearch) Software Engineer, Blogger",
+              "uuid": 8360597
+            },
+            "_distro": "resolute",
+            "_registered": true,
+            "_dependencies": [
+              {
+                "package": "R",
+                "version": ">= 4.1.0",
+                "role": "Depends"
+              },
+              {
+                "package": "base64enc",
+                "role": "Imports"
+              },
+              {
+                "package": "clipr",
+                "role": "Imports"
+              },
+              {
+                "package": "commonmark",
+                "role": "Imports"
+              },
+              {
+                "package": "crul",
+                "version": ">= 0.9.1.9992",
+                "role": "Imports"
+              },
+              {
+                "package": "dplyr",
+                "role": "Imports"
+              },
+              {
+                "package": "fs",
+                "role": "Imports"
+              },
+              {
+                "package": "gh",
+                "role": "Imports"
+              },
+              {
+                "package": "glue",
+                "role": "Imports"
+              },
+              {
+                "package": "magrittr",
+                "role": "Imports"
+              },
+              {
+                "package": "purrr",
+                "role": "Imports"
+              },
+              {
+                "package": "rlang",
+                "role": "Imports"
+              },
+              {
+                "package": "rstudioapi",
+                "role": "Imports"
+              },
+              {
+                "package": "stringr",
+                "role": "Imports"
+              },
+              {
+                "package": "textutils",
+                "role": "Imports"
+              },
+              {
+                "package": "tibble",
+                "role": "Imports"
+              },
+              {
+                "package": "urltools",
+                "role": "Imports"
+              },
+              {
+                "package": "usethis",
+                "role": "Imports"
+              },
+              {
+                "package": "whoami",
+                "role": "Imports"
+              },
+              {
+                "package": "xml2",
+                "role": "Imports"
+              },
+              {
+                "package": "xmlparsedata",
+                "role": "Imports"
+              },
+              {
+                "package": "details",
+                "role": "Suggests"
+              },
+              {
+                "package": "gluedown",
+                "role": "Suggests"
+              },
+              {
+                "package": "knitr",
+                "role": "Suggests"
+              },
+              {
+                "package": "rmarkdown",
+                "role": "Suggests"
+              },
+              {
+                "package": "testthat",
+                "version": ">= 3.0.0",
+                "role": "Suggests"
+              }
+            ],
+            "_owner": "ropenscilabs",
+            "_selfowned": true,
+            "_usedby": 0,
+            "_updates": [
+              {
+                "week": "2025-40",
+                "n": 1
+              },
+              {
+                "week": "2026-08",
+                "n": 1
+              }
+            ],
+            "_tags": [],
+            "_stars": 5,
+            "_contributors": [
+              {
+                "user": "maelle",
+                "count": 83,
+                "uuid": 8360597
+              }
+            ],
+            "_userbio": {
+              "uuid": 8360597,
+              "type": "user",
+              "name": "Maëlle Salmon",
+              "followers": 1112,
+              "description": "R(esearch) Software Engineer, Blogger"
+            },
+            "_downloads": {
+              "count": 0,
+              "source": "https://cranlogs.r-pkg.org/downloads/total/last-month/roblog"
+            },
+            "_devurl": "https://github.com/ropenscilabs/roblog",
+            "_pkgdown": "https://docs.ropensci.org/roblog/",
+            "_searchresults": 1,
+            "_rbuild": "4.6.1",
+            "_assets": [
+              "extra/citation.cff",
+              "extra/citation.html",
+              "extra/citation.json",
+              "extra/citation.txt",
+              "extra/contents.json",
+              "extra/manual.pdf",
+              "extra/readme.html",
+              "extra/readme.md",
+              "extra/roblog.html",
+              "LICENSE"
+            ],
+            "_realowner": "ropensci",
+            "_cranurl": false,
+            "_exports": [
+              "%>%",
+              "create_newsletter_content",
+              "ro_blog_post_author",
+              "ro_check_urls",
+              "ro_lint_md"
+            ],
+            "_help": [
+              {
+                "page": "create_newsletter_content",
+                "title": "Create newsletter content for Sendgrid",
+                "topics": [
+                  "create_newsletter_content"
+                ]
+              },
+              {
+                "page": "blog-posts",
+                "title": "Create a new rOpenSci author file",
+                "topics": [
+                  "ro_blog_post_author"
+                ]
+              },
+              {
+                "page": "ro_check_urls",
+                "title": "Check URLs in Markdown post",
+                "topics": [
+                  "ro_check_urls"
+                ]
+              },
+              {
+                "page": "ro_lint_md",
+                "title": "Lint Markdown post for rOpenSci blog",
+                "topics": [
+                  "ro_lint_md"
+                ]
+              }
+            ],
+            "_readme": "https://github.com/ropenscilabs/roblog/raw/HEAD/README.md",
+            "_rundeps": [
+              "askpass",
+              "base64enc",
+              "cli",
+              "clipr",
+              "commonmark",
+              "crayon",
+              "credentials",
+              "crul",
+              "curl",
+              "desc",
+              "dplyr",
+              "fs",
+              "generics",
+              "gert",
+              "gitcreds",
+              "glue",
+              "httpcode",
+              "httr",
+              "httr2",
+              "ini",
+              "jsonlite",
+              "lifecycle",
+              "magrittr",
+              "mime",
+              "openssl",
+              "pak",
+              "pillar",
+              "pkgconfig",
+              "purrr",
+              "R6",
+              "rappdirs",
+              "Rcpp",
+              "rlang",
+              "rprojroot",
+              "rstudioapi",
+              "stringi",
+              "stringr",
+              "sys",
+              "textutils",
+              "tibble",
+              "tidyselect",
+              "triebeard",
+              "urltools",
+              "usethis",
+              "utf8",
+              "vctrs",
+              "whisker",
+              "whoami",
+              "withr",
+              "xml2",
+              "xmlparsedata",
+              "yaml",
+              "zip"
+            ],
+            "_vignettes": [
+              {
+                "source": "checks-guidance.Rmd",
+                "filename": "checks-guidance.html",
+                "title": "Check your post",
+                "engine": "knitr::rmarkdown",
+                "headings": [
+                  "Best practice",
+                  "URL validity"
+                ],
+                "created": "2019-12-12 09:44:32",
+                "modified": "2025-09-29 07:16:48",
+                "commits": 5
+              }
+            ],
+            "_score": 3.6989700043360187,
+            "_indexed": false,
+            "_nocasepkg": "roblog",
+            "_universes": [
+              "maelle"
+            ],
+            "_indexurl": "https://ropensci.r-universe.dev/roblog",
+            "_binaries": [
+              {
+                "r": "4.7.0",
+                "os": "linux",
+                "version": "0.1.0",
+                "date": "2026-09-17T06:27:22.000Z",
+                "distro": "resolute",
+                "commit": "447b75c2aebdae2a8b2fd674d17da4ed0b9c999a",
+                "fileid": "https://r2.ropensci.org/9ad6a91fcad6ceada5b8d8e8d129bae3f6d75ee88384f3caa9b02e4a4503685f",
+                "status": "success",
+                "check": "OK",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35067730691"
+              },
+              {
+                "r": "4.6.1",
+                "os": "linux",
+                "version": "0.1.0",
+                "date": "2026-09-17T06:27:54.000Z",
+                "distro": "resolute",
+                "commit": "447b75c2aebdae2a8b2fd674d17da4ed0b9c999a",
+                "fileid": "https://r2.ropensci.org/bc5958105c1ea6e5f2e7823d194bdc59fda685f6492ee3f96f78f0071a91e054",
+                "status": "success",
+                "check": "OK",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35067730691"
+              },
+              {
+                "r": "4.5.3",
+                "os": "mac",
+                "version": "0.1.0",
+                "date": "2026-09-16T07:32:15.000Z",
+                "commit": "447b75c2aebdae2a8b2fd674d17da4ed0b9c999a",
+                "fileid": "https://r2.ropensci.org/d52758780270b9da5418a0cf0d3e5d65a34aa39cef74e85198a76afe27c11d39",
+                "status": "success",
+                "check": "OK",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35067730691"
+              },
+              {
+                "r": "4.6.1",
+                "os": "mac",
+                "version": "0.1.0",
+                "date": "2026-09-16T07:35:16.000Z",
+                "commit": "447b75c2aebdae2a8b2fd674d17da4ed0b9c999a",
+                "fileid": "https://r2.ropensci.org/dbfb3398bb8c3205178c703f07b98d4c2d737b4683c9524426d5a1db81892de6",
+                "status": "success",
+                "check": "OK",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35067730691"
+              },
+              {
+                "r": "4.6.0",
+                "os": "wasm",
+                "version": "0.1.0",
+                "date": "2026-09-16T07:22:42.000Z",
+                "commit": "447b75c2aebdae2a8b2fd674d17da4ed0b9c999a",
+                "fileid": "https://r2.ropensci.org/bd4c8d1db7ff52defa82445845d4f73dee4e3d07d955adac664d98a06b192c14",
+                "status": "success",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35067730691"
+              },
+              {
+                "r": "4.7.0",
+                "os": "win",
+                "version": "0.1.0",
+                "date": "2026-09-16T07:21:26.000Z",
+                "commit": "447b75c2aebdae2a8b2fd674d17da4ed0b9c999a",
+                "fileid": "https://r2.ropensci.org/d1ccb1a60eb62d99a746ff55f1315223435d74ae0657aedc4f3ff72b0ec5829f",
+                "status": "success",
+                "check": "OK",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35067730691"
+              },
+              {
+                "r": "4.5.3",
+                "os": "win",
+                "version": "0.1.0",
+                "date": "2026-09-16T07:21:24.000Z",
+                "commit": "447b75c2aebdae2a8b2fd674d17da4ed0b9c999a",
+                "fileid": "https://r2.ropensci.org/bee3289e41bec0111dcf7ba737c07013c953d6438033ab757965ac4b4096045f",
+                "status": "success",
+                "check": "OK",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35067730691"
+              },
+              {
+                "r": "4.6.1",
+                "os": "win",
+                "version": "0.1.0",
+                "date": "2026-09-16T07:21:35.000Z",
+                "commit": "447b75c2aebdae2a8b2fd674d17da4ed0b9c999a",
+                "fileid": "https://r2.ropensci.org/937a6ff70fae7ad646f601ffd7204e126f8bbf298111b221e466847ad55c8060",
+                "status": "success",
+                "check": "OK",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35067730691"
+              }
+            ]
+          },
+          {
+            "Type": "Package",
+            "Package": "glitter",
+            "Title": "glitter makes SPARQL",
+            "Version": "0.2.999",
+            "Authors@R": "c(\nperson(\"Lise\", \"Vaudor\", , \"lise.vaudor@ens-lyon.fr\", role = c(\"aut\", \"cre\"),\ncomment = c(ORCID = \"0000-0003-1844-6425\")),\nperson(\"Maëlle\", \"Salmon\", , \"msmaellesalmon@gmail.com\", role = \"aut\",\ncomment = c(ORCID = \"0000-0002-2815-0399\"))\n)",
+            "Description": "This package aims at writing and sending SPARQL queries.\nIt makes the exploration and use of Linked Open Data (Wikidata\nin particular) easier for those who do not know SPARQL.",
+            "License": "GPL-2",
+            "URL": "https://lvaudor.github.io/glitter/,\nhttps://github.com/lvaudor/glitter",
+            "BugReports": "https://github.com/lvaudor/glitter/issues",
+            "Config/Needs/website": "DT, ggplot2, leaflet, lvaudor/sequins, sf, tidyr,\nWikidataR",
+            "VignetteBuilder": "knitr, rmarkdown",
+            "Config/testthat/edition": "3",
+            "Encoding": "UTF-8",
+            "LazyData": "true",
+            "Roxygen": "list(markdown = TRUE)",
+            "RoxygenNote": "7.2.3",
+            "Remotes": [
+              "r-lib/testthat"
+            ],
+            "Config/pak/sysreqs": "libxml2-dev libssl-dev",
+            "Repository": "https://maelle.r-universe.dev",
+            "Date/Publication": "2023-12-21 14:13:07 UTC",
+            "RemoteUrl": "https://github.com/lvaudor/glitter",
+            "RemoteRef": "HEAD",
+            "RemoteSha": "b7e7d51e90a4d53bf981296e7e6df19a35567144",
+            "NeedsCompilation": "no",
+            "Packaged": {
+              "Date": "2026-09-19 10:52:40 UTC",
+              "User": "root"
+            },
+            "Author": "Lise Vaudor [aut, cre] (ORCID: <https://orcid.org/0000-0003-1844-6425>),\nMaëlle Salmon [aut] (ORCID: <https://orcid.org/0000-0002-2815-0399>)",
+            "Maintainer": "Lise Vaudor <lise.vaudor@ens-lyon.fr>",
+            "_user": "maelle",
+            "_type": "src",
+            "_file": "glitter_0.2.999.tar.gz",
+            "_fileid": "https://r2.ropensci.org/72936ecfe73ba426bf2e0ebebd22ca84a411b972b3a8c64565ecd9aafb27db5a",
+            "_filesize": 828637,
+            "_sha256": "72936ecfe73ba426bf2e0ebebd22ca84a411b972b3a8c64565ecd9aafb27db5a",
+            "_expires": "2026-12-28T10:56:02.000Z",
+            "_created": "2026-09-19T10:52:40.000Z",
+            "_published": "2026-09-19T10:56:04.286Z",
+            "_jobs": [
+              {
+                "job": 105885408584,
+                "time": 170,
+                "config": "linux-devel-x86_64",
+                "r": "4.7.0",
+                "check": "ERROR",
+                "artifact": "10583181800"
+              },
+              {
+                "job": 105885408566,
+                "time": 139,
+                "config": "linux-release-x86_64",
+                "r": "4.6.1",
+                "check": "ERROR",
+                "artifact": "10582498579"
+              },
+              {
+                "job": 105885408604,
+                "time": 107,
+                "config": "macos-oldrel-arm64",
+                "r": "4.5.3",
+                "check": "ERROR",
+                "artifact": "10583381560"
+              },
+              {
+                "job": 105885408600,
+                "time": 99,
+                "config": "macos-release-arm64",
+                "r": "4.6.1",
+                "check": "ERROR",
+                "artifact": "10583046856"
+              },
+              {
+                "job": 105884923506,
+                "time": 216,
+                "config": "source",
+                "r": "4.6.1",
+                "check": "OK",
+                "artifact": "10583276656"
+              },
+              {
+                "job": 105885408559,
+                "time": 136,
+                "config": "wasm-release",
+                "r": "4.6.0",
+                "check": "OK",
+                "artifact": "10582728460"
+              },
+              {
+                "job": 105885408690,
+                "time": 102,
+                "config": "windows-devel-x86_64",
+                "r": "4.7.0",
+                "check": "ERROR",
+                "artifact": "10583146885"
+              },
+              {
+                "job": 105885408588,
+                "time": 109,
+                "config": "windows-oldrel-x86_64",
+                "r": "4.5.3",
+                "check": "ERROR",
+                "artifact": "10582354177"
+              },
+              {
+                "job": 105885408590,
+                "time": 102,
+                "config": "windows-release-x86_64",
+                "r": "4.6.1",
+                "check": "ERROR",
+                "artifact": "10582448702"
+              }
+            ],
+            "_host": "GitHub-Actions",
+            "_buildurl": "https://github.com/r-universe/maelle/actions/runs/35438390719",
+            "_status": "success",
+            "_upstream": "https://github.com/lvaudor/glitter",
+            "_commit": {
+              "id": "b7e7d51e90a4d53bf981296e7e6df19a35567144",
+              "author": "Maëlle Salmon <maelle.salmon@yahoo.se>",
+              "committer": "Maëlle Salmon <maelle.salmon@yahoo.se>",
+              "message": "tests: update snapshot\n",
+              "time": 1703167987
+            },
+            "_maintainer": {
+              "name": "Lise Vaudor",
+              "email": "lise.vaudor@ens-lyon.fr",
+              "login": "lvaudor",
+              "twitter": "@LVaudor",
+              "description": "R-addict and data scientist",
+              "uuid": 13016686,
+              "orcid": "0000-0003-1844-6425"
+            },
+            "_distro": "resolute",
+            "_registered": true,
+            "_dependencies": [
+              {
+                "package": "R",
+                "version": ">= 4.1.0",
+                "role": "Depends"
+              },
+              {
+                "package": "anytime",
+                "role": "Imports"
+              },
+              {
+                "package": "cli",
+                "role": "Imports"
+              },
+              {
+                "package": "dplyr",
+                "role": "Imports"
+              },
+              {
+                "package": "glue",
+                "role": "Imports"
+              },
+              {
+                "package": "httr2",
+                "role": "Imports"
+              },
+              {
+                "package": "lifecycle",
+                "role": "Imports"
+              },
+              {
+                "package": "magrittr",
+                "role": "Imports"
+              },
+              {
+                "package": "purrr",
+                "role": "Imports"
+              },
+              {
+                "package": "rlang",
+                "role": "Imports"
+              },
+              {
+                "package": "tibble",
+                "role": "Imports"
+              },
+              {
+                "package": "xml2",
+                "role": "Imports"
+              },
+              {
+                "package": "xmlparsedata",
+                "role": "Imports"
+              },
+              {
+                "package": "covr",
+                "role": "Suggests"
+              },
+              {
+                "package": "httptest2",
+                "role": "Suggests"
+              },
+              {
+                "package": "httpuv",
+                "role": "Suggests"
+              },
+              {
+                "package": "knitr",
+                "role": "Suggests"
+              },
+              {
+                "package": "rmarkdown",
+                "role": "Suggests"
+              },
+              {
+                "package": "testthat",
+                "version": ">= 3.1.10.9000",
+                "role": "Suggests"
+              },
+              {
+                "package": "withr",
+                "role": "Suggests"
+              }
+            ],
+            "_owner": "lvaudor",
+            "_selfowned": false,
+            "_usedby": 0,
+            "_updates": [],
+            "_tags": [],
+            "_topics": [
+              "rstat",
+              "sparql"
+            ],
+            "_stars": 52,
+            "_contributors": [
+              {
+                "user": "lvaudor",
+                "count": 164,
+                "uuid": 13016686
+              },
+              {
+                "user": "maelle",
+                "count": 157,
+                "uuid": 8360597
+              },
+              {
+                "user": "defuneste",
+                "count": 1,
+                "uuid": 31417689
+              }
+            ],
+            "_userbio": {
+              "uuid": 8360597,
+              "type": "user",
+              "name": "Maëlle Salmon",
+              "followers": 1112,
+              "description": "R(esearch) Software Engineer, Blogger"
+            },
+            "_downloads": {
+              "count": 0,
+              "source": "https://cranlogs.r-pkg.org/downloads/total/last-month/glitter"
+            },
+            "_devurl": "https://github.com/lvaudor/glitter",
+            "_pkgdown": "https://lvaudor.github.io/glitter/",
+            "_searchresults": 37,
+            "_rbuild": "4.6.1",
+            "_assets": [
+              "extra/citation.cff",
+              "extra/citation.html",
+              "extra/citation.json",
+              "extra/citation.txt",
+              "extra/contents.json",
+              "extra/glitter.html",
+              "extra/manual.pdf",
+              "extra/readme.html",
+              "extra/readme.md"
+            ],
+            "_cranurl": false,
+            "_exports": [
+              "%>%",
+              "as.spq",
+              "is.spq",
+              "spq",
+              "spq_add",
+              "spq_arrange",
+              "spq_assemble",
+              "spq_control_request",
+              "spq_count",
+              "spq_endpoint_info",
+              "spq_filter",
+              "spq_group_by",
+              "spq_head",
+              "spq_init",
+              "spq_label",
+              "spq_language",
+              "spq_mutate",
+              "spq_offset",
+              "spq_perform",
+              "spq_prefix",
+              "spq_select",
+              "spq_set",
+              "spq_summarise",
+              "spq_summarize",
+              "spq_tally"
+            ],
+            "_datasets": [
+              {
+                "name": "all_correspondences",
+                "title": "Correspondence between R-DSL functions and SPARQL functions/operators.",
+                "object": "all_correspondences",
+                "class": [
+                  "tbl_df",
+                  "tbl",
+                  "data.frame"
+                ],
+                "fields": [
+                  "R",
+                  "SPARQL",
+                  "args"
+                ],
+                "rows": 66,
+                "table": false,
+                "tojson": true
+              },
+              {
+                "name": "datetime_functions",
+                "title": "Correspondence between R-DSL functions and SPARQL functions/operators.",
+                "object": "datetime_functions",
+                "class": [
+                  "tbl_df",
+                  "tbl",
+                  "data.frame"
+                ],
+                "fields": [
+                  "R",
+                  "SPARQL"
+                ],
+                "rows": 7,
+                "table": true,
+                "tojson": true
+              },
+              {
+                "name": "misc_functions",
+                "title": "Correspondence between R-DSL functions and SPARQL functions/operators.",
+                "object": "misc_functions",
+                "class": [
+                  "tbl_df",
+                  "tbl",
+                  "data.frame"
+                ],
+                "fields": [
+                  "R",
+                  "SPARQL"
+                ],
+                "rows": 9,
+                "table": true,
+                "tojson": true
+              },
+              {
+                "name": "numeric_functions",
+                "title": "Correspondence between R-DSL functions and SPARQL functions/operators.",
+                "object": "numeric_functions",
+                "class": [
+                  "tbl_df",
+                  "tbl",
+                  "data.frame"
+                ],
+                "fields": [
+                  "R",
+                  "SPARQL"
+                ],
+                "rows": 4,
+                "table": true,
+                "tojson": true
+              },
+              {
+                "name": "operators",
+                "title": "Correspondence between R-DSL functions and SPARQL functions/operators.",
+                "object": "operators",
+                "class": [
+                  "tbl_df",
+                  "tbl",
+                  "data.frame"
+                ],
+                "fields": [
+                  "R",
+                  "SPARQL"
+                ],
+                "rows": 6,
+                "table": true,
+                "tojson": true
+              },
+              {
+                "name": "set_functions",
+                "title": "Correspondence between R-DSL functions and SPARQL functions/operators.",
+                "object": "set_functions",
+                "class": [
+                  "tbl_df",
+                  "tbl",
+                  "data.frame"
+                ],
+                "fields": [
+                  "R",
+                  "SPARQL",
+                  "args"
+                ],
+                "rows": 7,
+                "table": false,
+                "tojson": true
+              },
+              {
+                "name": "string_functions",
+                "title": "Correspondence between R-DSL functions and SPARQL functions/operators.",
+                "object": "string_functions",
+                "class": [
+                  "tbl_df",
+                  "tbl",
+                  "data.frame"
+                ],
+                "fields": [
+                  "R",
+                  "SPARQL",
+                  "args"
+                ],
+                "rows": 12,
+                "table": false,
+                "tojson": true
+              },
+              {
+                "name": "term_functions",
+                "title": "Correspondence between R-DSL functions and SPARQL functions/operators.",
+                "object": "term_functions",
+                "class": [
+                  "tbl_df",
+                  "tbl",
+                  "data.frame"
+                ],
+                "fields": [
+                  "R",
+                  "SPARQL"
+                ],
+                "rows": 21,
+                "table": true,
+                "tojson": true
+              },
+              {
+                "name": "usual_endpoints",
+                "title": "Usual endpoints: this dataset allows the user to refer to them using a simplified name rather than their full url.",
+                "object": "usual_endpoints",
+                "class": [
+                  "spec_tbl_df",
+                  "tbl_df",
+                  "tbl",
+                  "data.frame"
+                ],
+                "fields": [
+                  "name",
+                  "url",
+                  "label_property"
+                ],
+                "rows": 5,
+                "table": true,
+                "tojson": true
+              },
+              {
+                "name": "usual_prefixes",
+                "title": "Usual prefixes: this dataset allows the user to refer to usual prefixes in their queries without manually specifying the associated urls.",
+                "object": "usual_prefixes",
+                "class": [
+                  "spec_tbl_df",
+                  "tbl_df",
+                  "tbl",
+                  "data.frame"
+                ],
+                "fields": [
+                  "type",
+                  "name",
+                  "url"
+                ],
+                "rows": 27,
+                "table": true,
+                "tojson": true
+              },
+              {
+                "name": "wd_properties",
+                "title": "Wikidata properties",
+                "object": "wd_properties",
+                "class": [
+                  "spec_tbl_df",
+                  "tbl_df",
+                  "tbl",
+                  "data.frame"
+                ],
+                "fields": [
+                  "id",
+                  "type",
+                  "label",
+                  "description",
+                  "altLabel"
+                ],
+                "rows": 8939,
+                "table": true,
+                "tojson": true
+              }
+            ],
+            "_help": [
+              {
+                "page": "sparql-dsl",
+                "title": "Correspondence between R-DSL functions and SPARQL functions/operators.",
+                "topics": [
+                  "all_correspondences",
+                  "datetime_functions",
+                  "misc_functions",
+                  "numeric_functions",
+                  "operators",
+                  "set_functions",
+                  "string_functions",
+                  "term_functions"
+                ]
+              },
+              {
+                "page": "spq",
+                "title": "SPARQL escaping.",
+                "topics": [
+                  "as.spq",
+                  "is.spq",
+                  "spq"
+                ]
+              },
+              {
+                "page": "spq_add",
+                "title": "Add a triple pattern statement to a query",
+                "topics": [
+                  "spq_add"
+                ]
+              },
+              {
+                "page": "spq_arrange",
+                "title": "Arrange results by variable value",
+                "topics": [
+                  "spq_arrange"
+                ]
+              },
+              {
+                "page": "spq_assemble",
+                "title": "Assemble query parts into a proper SPARQL query",
+                "topics": [
+                  "spq_assemble"
+                ]
+              },
+              {
+                "page": "spq_control_request",
+                "title": "Create the request control object for 'spq_init()'",
+                "topics": [
+                  "spq_control_request"
+                ]
+              },
+              {
+                "page": "spq_endpoint_info",
+                "title": "Create the endpoint info object for 'spq_init()'",
+                "topics": [
+                  "spq_endpoint_info"
+                ]
+              },
+              {
+                "page": "spq_filter",
+                "title": "Filters results by adding conditions",
+                "topics": [
+                  "spq_filter"
+                ]
+              },
+              {
+                "page": "spq_group_by",
+                "title": "Group the results by one or more variables",
+                "topics": [
+                  "spq_group_by"
+                ]
+              },
+              {
+                "page": "spq_head",
+                "title": "Return the first lines of results",
+                "topics": [
+                  "spq_head"
+                ]
+              },
+              {
+                "page": "spq_init",
+                "title": "Initialize a query object.",
+                "topics": [
+                  "spq_init"
+                ]
+              },
+              {
+                "page": "spq_label",
+                "title": "Label variables",
+                "topics": [
+                  "spq_label"
+                ]
+              },
+              {
+                "page": "spq_mutate",
+                "title": "Create and modify variables in the results",
+                "topics": [
+                  "spq_mutate"
+                ]
+              },
+              {
+                "page": "spq_offset",
+                "title": "Offset the first generated result",
+                "topics": [
+                  "spq_offset"
+                ]
+              },
+              {
+                "page": "spq_perform",
+                "title": "Assemble query parts into a sparql query and send it to endpoint to get a tibble as a result.",
+                "topics": [
+                  "spq_perform"
+                ]
+              },
+              {
+                "page": "spq_prefix",
+                "title": "Add prefixes to the query",
+                "topics": [
+                  "spq_prefix"
+                ]
+              },
+              {
+                "page": "spq_select",
+                "title": "Select (and create) particular variables",
+                "topics": [
+                  "spq_select"
+                ]
+              },
+              {
+                "page": "spq_set",
+                "title": "Set helper values for the query",
+                "topics": [
+                  "spq_set"
+                ]
+              },
+              {
+                "page": "spq_summarise",
+                "title": "Summarise each group of results to fewer results",
+                "topics": [
+                  "spq_summarise",
+                  "spq_summarize"
+                ]
+              },
+              {
+                "page": "spq_tally",
+                "title": "Count the observations",
+                "topics": [
+                  "spq_count",
+                  "spq_tally"
+                ]
+              },
+              {
+                "page": "usual_endpoints",
+                "title": "Usual endpoints: this dataset allows the user to refer to them using a simplified name rather than their full url.",
+                "topics": [
+                  "usual_endpoints"
+                ]
+              },
+              {
+                "page": "usual_prefixes",
+                "title": "Usual prefixes: this dataset allows the user to refer to usual prefixes in their queries without manually specifying the associated urls.",
+                "topics": [
+                  "usual_prefixes"
+                ]
+              },
+              {
+                "page": "wd_properties",
+                "title": "Wikidata properties",
+                "topics": [
+                  "wd_properties"
+                ]
+              }
+            ],
+            "_pkglogo": "https://github.com/lvaudor/glitter/raw/HEAD/man/figures/logo.png",
+            "_readme": "https://github.com/lvaudor/glitter/raw/HEAD/README.md",
+            "_rundeps": [
+              "anytime",
+              "askpass",
+              "BH",
+              "cli",
+              "curl",
+              "dplyr",
+              "generics",
+              "glue",
+              "httr2",
+              "lifecycle",
+              "magrittr",
+              "openssl",
+              "pillar",
+              "pkgconfig",
+              "purrr",
+              "R6",
+              "Rcpp",
+              "rlang",
+              "sys",
+              "tibble",
+              "tidyselect",
+              "utf8",
+              "vctrs",
+              "withr",
+              "xml2",
+              "xmlparsedata"
+            ],
+            "_score": 4.284205067701794,
+            "_indexed": false,
+            "_nocasepkg": "glitter",
+            "_universes": [
+              "maelle"
+            ],
+            "_binaries": [
+              {
+                "r": "4.7.0",
+                "os": "linux",
+                "version": "0.2.999",
+                "date": "2026-09-19T10:55:16.000Z",
+                "distro": "resolute",
+                "commit": "b7e7d51e90a4d53bf981296e7e6df19a35567144",
+                "fileid": "https://r2.ropensci.org/ae1e49567f2276031829ccb835dd2707e9be0d4c966073551b9d1be6d300c0cb",
+                "status": "failure",
+                "check": "ERROR",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35438390719"
+              },
+              {
+                "r": "4.6.1",
+                "os": "linux",
+                "version": "0.2.999",
+                "date": "2026-09-19T10:54:53.000Z",
+                "distro": "resolute",
+                "commit": "b7e7d51e90a4d53bf981296e7e6df19a35567144",
+                "fileid": "https://r2.ropensci.org/b66f1914b7335f5a6b752fbc7ab951d95ba64ad7952a545843a41ccf5509ce2d",
+                "status": "failure",
+                "check": "ERROR",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35438390719"
+              },
+              {
+                "r": "4.5.3",
+                "os": "mac",
+                "version": "0.2.999",
+                "date": "2026-09-19T10:54:26.000Z",
+                "commit": "b7e7d51e90a4d53bf981296e7e6df19a35567144",
+                "fileid": "https://r2.ropensci.org/f3668069057acc38a5e07e5fe6c05e6f32ce45a9537355f49d3b689376f4c9ab",
+                "status": "failure",
+                "check": "ERROR",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35438390719"
+              },
+              {
+                "r": "4.6.1",
+                "os": "mac",
+                "version": "0.2.999",
+                "date": "2026-09-19T10:54:17.000Z",
+                "commit": "b7e7d51e90a4d53bf981296e7e6df19a35567144",
+                "fileid": "https://r2.ropensci.org/c6f5bae12f14e68967a450344a81a8f52882579559d5248c9f18bf67cc01eeb9",
+                "status": "failure",
+                "check": "ERROR",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35438390719"
+              },
+              {
+                "r": "4.6.0",
+                "os": "wasm",
+                "version": "0.2.999",
+                "date": "2026-09-19T10:55:11.000Z",
+                "commit": "b7e7d51e90a4d53bf981296e7e6df19a35567144",
+                "fileid": "https://r2.ropensci.org/76620bccdb0f48fb1905891538f76b0bb1fbfae4a912b49f9c3168318cf88c95",
+                "status": "success",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35438390719"
+              },
+              {
+                "r": "4.7.0",
+                "os": "win",
+                "version": "0.2.999",
+                "date": "2026-09-19T10:53:56.000Z",
+                "commit": "b7e7d51e90a4d53bf981296e7e6df19a35567144",
+                "fileid": "https://r2.ropensci.org/5eb128c1261db1668cf1b8da2ae15d6ad971d3817aa83caf68c341d3df0b87ff",
+                "status": "failure",
+                "check": "ERROR",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35438390719"
+              },
+              {
+                "r": "4.5.3",
+                "os": "win",
+                "version": "0.2.999",
+                "date": "2026-09-19T10:54:11.000Z",
+                "commit": "b7e7d51e90a4d53bf981296e7e6df19a35567144",
+                "fileid": "https://r2.ropensci.org/d4950bc6c1c1ba02389006d66b6ab1b1c61d922fb1c4b13d0dbd2a011c636098",
+                "status": "failure",
+                "check": "ERROR",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35438390719"
+              },
+              {
+                "r": "4.6.1",
+                "os": "win",
+                "version": "0.2.999",
+                "date": "2026-09-19T10:54:03.000Z",
+                "commit": "b7e7d51e90a4d53bf981296e7e6df19a35567144",
+                "fileid": "https://r2.ropensci.org/56990517d7389e049c35548e12d10dbcc245bb150576819ba6ef19a9a0aad3e5",
+                "status": "failure",
+                "check": "ERROR",
+                "buildurl": "https://github.com/r-universe/maelle/actions/runs/35438390719"
+              }
+            ]
+          }
+        ]
+  recorded_at: 2026-09-25 07:11:43
+recorded_with: VCR-vcr/2.1.0
