@@ -30,7 +30,7 @@ email_from_universe <- function(
     }) |>
       unlist(recursive = FALSE)
 
-    if (is.null(package)) {
+    if (is.null(person_information)) {
       distances <- purrr::map_dbl(
         universe,
         \(x) stringdist::stringdist(x[["_maintainer"]][["name"]], name)
@@ -39,6 +39,8 @@ email_from_universe <- function(
     }
   }
 
+  # TODO: also use _authors when it exists as an API output field
+  # to not only get maintainers
   data.frame(
     email = person_information$`_maintainer`$email,
     name = person_information$`_maintainer`$name,
